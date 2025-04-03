@@ -1,3 +1,7 @@
 # Style-Quality-Lounge
 
-## 2.SQL sigma
+### Zasada 1:
+  - Dawid Wokulski
+
+#### Zasada 2:
+  - Dawid W.
