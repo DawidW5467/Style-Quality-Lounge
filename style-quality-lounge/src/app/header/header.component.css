@@ -1,0 +1,39 @@
+
+h1 {
+
+    color: var(--darkblue);
+    font-family: inter;
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+.header{
+    width: 100%;
+    height: auto;
+    -webkit-box-shadow: 0px 3px 24px 0px var(--black);
+    -moz-box-shadow: 0px 3px 24px 0px var(--black);
+    box-shadow: 0px 3px 24px 0px var(--black);
+}
+
+.header_content{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+
+}
+
+.account_icon{
+    font-family: account_icon_font;
+}
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 40
+}
+
+
