@@ -27,10 +27,8 @@ input[type=text]{
     border: 2px solid var(--graywhite);
 }
 
-
-
 input[type=password]{
-    border-radius:8px; 
+    border-radius:8px;
     font-size: 20px;
     border: 2px solid var(--graywhite);
 }
@@ -38,6 +36,14 @@ input[type=password]{
 #remember_label{
     color: #ADAEBC;
 }
+
+
+input[type=email]{
+    border-radius:8px;
+    font-size: 20px;
+    border: 2px solid var(--graywhite);
+}
+
 
 button{
     background-color: var(--magenta-full);

@@ -1,15 +1,17 @@
 :host{
-    --white: #f4fff8;
+    --graywhite: #E5E7EB;
+    --white:#fff;
     --lightblue: #8BAAAD;
     --darkblue: #177E89;
     --magenta: #69598899;
+    --magenta-full:#695988;
     --black: #000F08;
-    --backgroud-color:#E5E7EB;
+    --backgroud-color: #f4fff8;
 }
+
 
 
 @font-face {
     font-family: inter;
     src: url('../assets/fonts/Montserrat-VariableFont_wght.ttf');
 }
-

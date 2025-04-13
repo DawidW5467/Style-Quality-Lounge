@@ -7,10 +7,15 @@
 body{
     
     margin: 0px;
-   
+
 }
 
 
 main{
-    background-color: #f4fff8;
+    height: 80vh;
+   display: flex;
+   justify-content:center ;
+   align-items: center;
+   flex-direction: column;
+    background-color: var(--backgroud-color);
 }

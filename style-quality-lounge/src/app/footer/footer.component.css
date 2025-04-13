@@ -1,0 +1,52 @@
+footer{
+  
+    width: 100%;
+    flex-direction: row;
+    background-color: var(--black);
+    font-family: inter;
+
+}
+
+.footer_lists{
+    display: flex;
+    justify-content:space-around;
+    width: 80%; 
+    margin-left: 50px;
+    color: var(--white);
+}
+
+.cr
+{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    color: #8BAAAD;
+}
+
+li{
+    color: #8BAAAD;
+}
+
+ul{
+    display: block;
+    list-style-type:none;
+    line-height: 30px;
+}
+
+.newsletter{
+    padding-top: 20px;
+}
+
+input[type=email]{
+    font-size: 16px;
+    border-radius: 8px;
+
+}
+
+hr{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
