@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
-import {LoginComponent} from './login/login.component';;
+import {LoginComponent} from './login/login.component';
 import {FooterComponent} from './footer/footer.component';
 import {RegisterComponent} from './register/register.component';
+import {CartComponent} from './cart/cart.component';
+import {CartItemComponent} from './cart-item/cart-item.component'
+import {AccountInfoComponent} from './account-info/account-info.component';
+import {OrderDetailsComponent} from './order-details/order-details.component';
+import {PaymentComponent} from './payment/payment.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent],
+  imports: [RouterOutlet, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, CartComponent, CartItemComponent, AccountInfoComponent, OrderDetailsComponent, PaymentComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

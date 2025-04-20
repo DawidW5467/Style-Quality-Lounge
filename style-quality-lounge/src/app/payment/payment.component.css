@@ -1,0 +1,73 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0fff4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    margin: 0;
+  }
+
+  .payment-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 320px;
+  }
+
+  .payment-card h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+  }
+
+  .price-row.total {
+    font-weight: 600;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #007b5f;
+  }
+
+  .method {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .method:hover {
+    border-color: #007b5f;
+  }
+
+  .method i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  .pay-button {
+    background-color: #007b5f;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .pay-button:hover {
+    background-color: #00614b;
+  }

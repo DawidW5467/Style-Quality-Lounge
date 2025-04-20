@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zamówienie</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+  <div class="form-section">
+    <h3>Dane osobowe</h3>
+    <div class="form-group">
+      <input type="text" placeholder="Imię">
+      <input type="text" placeholder="Nazwisko">
+      <input type="tel" placeholder="Numer telefonu">
+      <input type="email" placeholder="Email">
+    </div>
+
+    <h3>Adres dostawy</h3>
+    <div class="form-group">
+      <input type="text" placeholder="Ulica i numer">
+      <input type="text" placeholder="Kod pocztowy">
+      <input type="text" placeholder="Miasto">
+    </div>
+
+    <h3>Sposób dostawy</h3>
+    <div class="delivery-options">
+      <div class="delivery-option">
+        <span>🚚 Kurier</span>
+        <span>14,99 zł</span>
+      </div>
+      <div class="delivery-option">
+        <span>📦 Odbiór w punkcie</span>
+        <span>9,99 zł</span>
+      </div>
+      <div class="delivery-option">
+        <span>🚛 Kurier na następny dzień</span>
+        <span>19,99 zł</span>
+      </div>
+      <div class="delivery-option">
+        <span>📮 InPost</span>
+        <span>12,99 zł</span>
+      </div>
+    </div>
+
+    <div class="checkbox-sms">
+      <label>
+        <input type="checkbox"> Powiadomienia SMS o statusie przesyłki (+0.99 zł)
+      </label>
+    </div>
+  </div>
+
+  <div class="order-summary">
+    <h3>Podsumowanie zamówienia</h3>
+
+    <div class="item">
+      <div class="item-details">
+        <strong>Sigma Buty</strong>
+        <small>Rozmiar: 42</small>
+      </div>
+      <div class="price">299 zł</div>
+    </div>
+
+    <div class="item">
+      <div class="item-details">
+        <strong>T-Shirt</strong>
+        <small>Rozmiar: L</small>
+      </div>
+      <div class="price">79 zł</div>
+    </div>
+
+    <div class="summary-row">
+      <span>Suma produktów</span>
+      <span>378 zł</span>
+    </div>
+    <div class="summary-row">
+      <span>Dostawa</span>
+      <span>14,99 zł</span>
+    </div>
+    <div class="summary-row">
+      <span>Powiadomienia SMS</span>
+      <span>0,99 zł</span>
+    </div>
+    <div class="summary-row summary-total">
+      <span>Razem</span>
+      <span>393,98 zł</span>
+    </div>
+
+    <button class="pay-button">Przejdź do płatności</button>
+  </div>
+
+</div>
+
+</body>
+</html>
