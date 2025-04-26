@@ -1,19 +1,21 @@
 footer{
-  
+
     width: 100%;
     flex-direction: row;
     background-color: var(--black);
     font-family: inter;
+    position: relative;
 
 }
 
 .footer_lists{
     display: flex;
     justify-content:space-around;
-    width: 80%; 
+    width: 80%;
     margin-left: 50px;
     color: var(--white);
 }
+
 
 .cr
 {
@@ -49,4 +51,10 @@ hr{
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
+}
+
+@media (max-width: 1920px){
+  footer{
+    margin-top: 200px;
+  }
 }
