@@ -61,7 +61,7 @@ body {
   .stat strong {
     display: block;
     font-size: 1.25rem;
-    color: #5a4bdb;
+    color: var(--magenta-full);
   }
 
   .section-title {
