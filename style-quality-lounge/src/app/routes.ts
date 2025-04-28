@@ -55,6 +55,11 @@ const routeConfig: Routes = [
         path:'add-product',
         component: AddProductComponent,
         title: "Dodaj produkt"
+    },
+    {
+        path:'**',
+        component: MainSiteComponent,
+        title: 'Strona Główna'
     }
 ];
 
