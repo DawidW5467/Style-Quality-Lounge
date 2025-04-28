@@ -17,6 +17,12 @@
     color: #007f7f;
   }
   
+  .logo > a{
+    font-size: 24px;
+    font-weight: bold;
+    color: #007f7f;
+    text-decoration: none;
+  }
   .search-box {
     flex: 1;
     display: flex;
