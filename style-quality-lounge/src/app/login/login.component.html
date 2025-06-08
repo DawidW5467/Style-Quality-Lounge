@@ -1,18 +1,72 @@
+<div class="container">
+  <div class="login-container">
+    <h2>Logowanie</h2>
 
+    <!-- Alert Sukcesu -->
+    <div class="success-message" *ngIf="successMessage">
+      <div class="alert alert-success">
+        {{ successMessage }}
+        <div *ngIf="redirectCountdown > 0" class="countdown">
+          Przekierowanie za {{ redirectCountdown }} sekund...
+        </div>
+      </div>
+    </div>
 
-    <form action="#" method="post">
-        <h2>Zaloguj się</h2>
-        <label > <input type="text" name="login" id="login" placeholder="Login"> </label> <br>
-        <label> <input type="password" name="password" id="password" placeholder="Hasło"> </label> <br> 
-        <label id="remember_label">
-            <input type="checkbox" name="remember" id="remember">
-            Zapamiętaj mnie
-        </label>
-    
-            <input type="submit" value="Zaloguj się">
-            <button>Zarejestruj się!</button>
-    
-    
+    <!-- Alert Błędu -->
+    <div class="error-container" *ngIf="errorMessage">
+      <div class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" *ngIf="!redirectCountdown">
+      <div class="form-group">
+        <label for="login">Login</label>
+        <input
+          type="text"
+          id="login"
+          formControlName="login"
+          placeholder="Wprowadź login"
+          [ngClass]="{'invalid': loginControl?.invalid && (loginControl?.dirty || loginControl?.touched)}"
+        >
+        <div class="error-message" *ngIf="loginControl?.invalid && (loginControl?.dirty || loginControl?.touched)">
+          <span *ngIf="loginControl?.errors?.['required']">Login jest wymagany</span>
+          <span *ngIf="loginControl?.errors?.['minlength']">Login musi mieć co najmniej 3 znaki</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Hasło</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Wprowadź hasło"
+          [ngClass]="{'invalid': passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)}"
+        >
+        <div class="error-message" *ngIf="passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)">
+          <span *ngIf="passwordControl?.errors?.['required']">Hasło jest wymagane</span>
+          <span *ngIf="passwordControl?.errors?.['minlength']">Hasło musi mieć co najmniej 8 znaków</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" [disabled]="loginForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Zaloguj się</span>
+          <span *ngIf="isLoading">Logowanie...</span>
+        </button>
+      </div>
+
+      <div class="login-link">
+        Nie masz konta? <a routerLink="/register">Zarejestruj się</a>
+      </div>
     </form>
 
-
+    <!-- Przycisk do strony głównej po udanym logowaniu -->
+    <div class="home-button-container" *ngIf="redirectCountdown > 0">
+      <button routerLink="/" class="home-now-button">
+        Przejdź do strony głównej
+      </button>
+    </div>
+  </div>
+</div>

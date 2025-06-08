@@ -1,17 +1,117 @@
+<div class="container">
+  <div class="register-container">
+    <h2>Rejestracja</h2>
 
+    <!-- Alert Sukcesu -->
+    <div class="success-message" *ngIf="successMessage">
+      <div class="alert alert-success">
+        {{ successMessage }}
+        <div *ngIf="redirectCountdown > 0" class="countdown">
+          Przekierowanie za {{ redirectCountdown }} sekund...
+        </div>
+      </div>
+    </div>
 
-<form action="#" method="post">
-    <h2>Zarejestruj się</h2>
-    <label > <input type="text" name="imie" id="imie" placeholder="Imie"> </label> <br>
-    <label > <input type="text" name="nazwisko" id="nazwisko" placeholder="Nazwisko"> </label> <br>
-    <label > <input type="email" name="email" id="email" placeholder="E-mail"> </label> <br>
-    <label > <input type="text" name="nazwa" id="nazwa" placeholder="Nazwa"> </label> <br>
-    <label> <input type="password" name="password" id="password" placeholder="Hasło"> </label> <br> 
-    <label> <input type="password" name="rep_password" id="rep_password" placeholder="Powtórz hasło"> </label> <br> 
-        <input type="submit" value="Zaloguj się">
-        <button>Zarejestruj się!</button>
+    <!-- Alert Błędu -->
+    <div class="error-container" *ngIf="errorMessage">
+      <div class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+    </div>
 
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form" *ngIf="!successMessage">
+      <div class="form-group">
+        <label for="name">Imię</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Wprowadź imię"
+          [ngClass]="{'invalid': nameControl?.invalid && (nameControl?.dirty || nameControl?.touched)}"
+        >
+        <div class="error-message" *ngIf="nameControl?.invalid && (nameControl?.dirty || nameControl?.touched)">
+          <span *ngIf="nameControl?.errors?.['required']">Imię jest wymagane</span>
+          <span *ngIf="nameControl?.errors?.['minlength']">Imię musi mieć co najmniej 2 znaki</span>
+        </div>
+      </div>
 
-</form>
+      <div class="form-group">
+        <label for="surname">Nazwisko</label>
+        <input
+          type="text"
+          id="surname"
+          formControlName="surname"
+          placeholder="Wprowadź nazwisko"
+          [ngClass]="{'invalid': surnameControl?.invalid && (surnameControl?.dirty || surnameControl?.touched)}"
+        >
+        <div class="error-message" *ngIf="surnameControl?.invalid && (surnameControl?.dirty || surnameControl?.touched)">
+          <span *ngIf="surnameControl?.errors?.['required']">Nazwisko jest wymagane</span>
+          <span *ngIf="surnameControl?.errors?.['minlength']">Nazwisko musi mieć co najmniej 2 znaki</span>
+        </div>
+      </div>
 
+      <div class="form-group">
+        <label for="login">Login</label>
+        <input
+          type="text"
+          id="login"
+          formControlName="login"
+          placeholder="Wprowadź login"
+          [ngClass]="{'invalid': loginControl?.invalid && (loginControl?.dirty || loginControl?.touched)}"
+        >
+        <div class="error-message" *ngIf="loginControl?.invalid && (loginControl?.dirty || loginControl?.touched)">
+          <span *ngIf="loginControl?.errors?.['required']">Login jest wymagany</span>
+          <span *ngIf="loginControl?.errors?.['minlength']">Login musi mieć co najmniej 3 znaki</span>
+        </div>
+      </div>
 
+      <div class="form-group">
+        <label for="password">Hasło</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Wprowadź hasło"
+          [ngClass]="{'invalid': passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)}"
+        >
+        <div class="error-message" *ngIf="passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)">
+          <span *ngIf="passwordControl?.errors?.['required']">Hasło jest wymagane</span>
+          <span *ngIf="passwordControl?.errors?.['minlength']">Hasło musi mieć co najmniej 8 znaków</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Powtórz hasło</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          placeholder="Powtórz hasło"
+          [ngClass]="{'invalid': confirmPasswordControl?.invalid && (confirmPasswordControl?.dirty || confirmPasswordControl?.touched)}"
+        >
+        <div class="error-message" *ngIf="confirmPasswordControl?.invalid && (confirmPasswordControl?.dirty || confirmPasswordControl?.touched)">
+          <span *ngIf="confirmPasswordControl?.errors?.['required']">Powtórzenie hasła jest wymagane</span>
+          <span *ngIf="confirmPasswordControl?.errors?.['passwordMismatch']">Hasła nie są zgodne</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" [disabled]="registerForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Zarejestruj się</span>
+          <span *ngIf="isLoading">Rejestracja...</span>
+        </button>
+      </div>
+
+      <div class="login-link">
+        Masz już konto? <a routerLink="/login">Zaloguj się</a>
+      </div>
+    </form>
+
+    <!-- Przycisk do logowania po udanej rejestracji -->
+    <div class="login-button-container" *ngIf="successMessage">
+      <button routerLink="/login" class="login-now-button">
+        Zaloguj się teraz
+      </button>
+    </div>
+  </div>
+</div>

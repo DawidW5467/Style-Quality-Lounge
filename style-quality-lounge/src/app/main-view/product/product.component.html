@@ -1,1 +1,58 @@
-<p>product works!</p>
+<!-- Widok produktu -->
+<div class="product-container" *ngIf="!loading && !error && product">
+  <div class="image-gallery">
+    <div class="product-image placeholder">{{ product.name }}</div>
+
+    <div class="thumbnail-grid">
+      <div class="thumb placeholder">{{ product.name }}</div>
+      <div class="thumb placeholder">Widok z boku</div>
+      <div class="thumb placeholder">Widok z tyłu</div>
+      <div class="thumb placeholder">Akcesoria</div>
+    </div>
+  </div>
+
+  <div class="product-details">
+    <h2>{{ product.name }}</h2>
+    <div class="rating">
+      ★★★★☆ <span>({{ product.reviews_count || 0 }} opinii)</span>
+    </div>
+    <div class="price">{{ product.price }} zł</div>
+
+    <h3>Opis</h3>
+
+    <p class="description">
+      {{ product.description }}
+    </p>
+
+    <h3>Kluczowe cechy</h3>
+
+    <ul class="features">
+      <li *ngFor="let feature of product.features?.split(',')">✓ {{ feature }}</li>
+      <li *ngIf="!product.features">✓ Brak danych o cechach produktu</li>
+    </ul>
+
+    <form class="product-form">
+      <label for="quantity">Ilość:</label>
+      <div class="quantity-selector">
+        <button type="button" (click)="changeQuantity(-1)">-</button>
+        <input type="number" id="quantity" name="quantity" [(ngModel)]="quantity" min="1" required />
+        <button type="button" (click)="changeQuantity(1)">+</button>
+      </div>
+
+      <div class="buttons">
+        <button class="primary" type="button" (click)="addToCart()">Dodaj do koszyka</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Ekran ładowania -->
+<div *ngIf="loading" class="loading">
+  <p>Ładowanie szczegółów produktu...</p>
+</div>
+
+<!-- Komunikat o błędzie -->
+<div *ngIf="error" class="error">
+  <p>{{ error }}</p>
+  <button routerLink="/">Wróć do strony głównej</button>
+</div>

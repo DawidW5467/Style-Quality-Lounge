@@ -1,123 +1,243 @@
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f0fff4;
-    margin: 0;
-    padding: 2rem;
-    color: #333;
-  }
+/* account-info.component.css */
+:host {
+  display: block;
+  width: 100%;
+}
 
+.container {
+  width: 85%;
+  max-width: 1000px;
+  margin: 1.5rem auto;
+  padding: 0;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.avatar-placeholder {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5a4bdb, #9747ff);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(90, 75, 219, 0.25);
+}
+
+.username {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #333;
+}
+
+.role {
+  font-size: 1rem;
+  color: #666;
+  margin: 0.2rem 0 0;
+}
+
+/* Statystyki */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+  padding: 1.2rem 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.stat:hover {
+  transform: translateY(-3px);
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.6rem;
+  color: #5a4bdb;
+  margin-bottom: 0.3rem;
+}
+
+/* Informacje osobiste */
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.info-row {
+  margin-bottom: 1rem;
+  display: flex;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.info-label {
+  font-size: 0.95rem;
+  color: #777;
+  margin-bottom: 0.2rem;
+  width: 30%;
+  min-width: 120px;
+}
+
+.info-value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  flex: 1;
+}
+
+/* Przyciski akcji */
+.action-buttons {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: flex-end;
+}
+
+.button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.primary-button {
+  background-color: #5a4bdb;
+  color: white;
+  box-shadow: 0 3px 8px rgba(90, 75, 219, 0.25);
+}
+
+.primary-button:hover {
+  background-color: #4a3bc7;
+  box-shadow: 0 5px 12px rgba(90, 75, 219, 0.35);
+}
+
+.logout-button {
+  background-color: white;
+  color: #ff5252;
+  border: 2px solid #ff5252;
+}
+
+.logout-button:hover {
+  background-color: #ff5252;
+  color: white;
+}
+
+/* Komunikaty */
+.loading-message, .error-message {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.error-card {
+  background-color: #fff8f8;
+  border-left: 4px solid #ff5252;
+}
+
+.error-message {
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+
+/* Responsywność */
+@media (max-width: 992px) {
   .container {
-    max-width: 900px;
-    margin: auto;
+    width: 90%;
   }
+}
 
-  .card {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .profile-header {
-    display: flex;
-    align-items: center;
-  }
-
-  .avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    margin-right: 1rem;
-  }
-
-  .username {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .role {
-    font-size: 0.95rem;
-    color: #666;
-  }
-
+@media (max-width: 768px) {
   .stats {
-    display: flex;
-    justify-content: space-between;
-    margin: 1.5rem 0;
-    text-align: center;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
   }
 
   .stat {
-    flex: 1;
-    background-color: white;
-    margin: 0 0.5rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     padding: 1rem;
-  }
-
-  .stat strong {
-    display: block;
-    font-size: 1.25rem;
-    color: var(--magenta-full);
-  }
-
-  .section-title {
-    font-weight: 600;
-    margin-bottom: 1rem;
   }
 
   .info-row {
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
   }
 
   .info-label {
-    font-size: 0.85rem;
-    color: #888;
+    width: 100%;
+    margin-bottom: 0.3rem;
   }
 
-  .info-value {
-    font-size: 1rem;
-  }
-
-  .items {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-  }
-
-  .item {
-    min-width: 200px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    padding: 1rem;
-    text-align: center;
-  }
-
-  .item-name {
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-  }
-
-  .item-price {
-    color: #a10000;
-    font-weight: 600;
+  .action-buttons {
+    flex-direction: column;
   }
 
   .button {
-    display: block;
-    text-align: center;
-    background-color: #5a4bdb;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 10px;
-    text-decoration: none;
-    margin: 1rem auto 0;
-    width: fit-content;
+    width: 100%;
   }
+}
+
+@media (max-width: 576px) {
+  .card {
+    padding: 1.2rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .avatar-placeholder {
+    margin: 0 auto 0.8rem;
+  }
+}

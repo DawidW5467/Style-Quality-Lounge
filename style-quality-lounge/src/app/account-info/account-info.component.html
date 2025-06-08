@@ -1,35 +1,43 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8">
-  <title>Profil użytkownika</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div class="container">
+<!-- account-info.component.html -->
+<div class="container">
+  <!-- Komunikat ładowania -->
+  <div class="card" *ngIf="isLoading">
+    <p class="loading-message">Ładowanie danych użytkownika...</p>
+  </div>
+
+  <!-- Komunikat błędu -->
+  <div class="card error-card" *ngIf="errorMessage">
+    <p class="error-message">{{ errorMessage }}</p>
+    <button class="button" (click)="loadUserProfile()">Spróbuj ponownie</button>
+  </div>
+
+  <!-- Dane użytkownika (widoczne tylko gdy użytkownik jest zalogowany) -->
+  <ng-container *ngIf="user && !isLoading">
     <!-- Profil -->
     <div class="card">
       <div class="profile-header">
-        <img src="https://i.imgur.com/Q9qFt3m.png" alt="Avatar" class="avatar">
+        <div class="avatar-placeholder" *ngIf="user">
+          {{ user.name.charAt(0) }}{{ user.surname.charAt(0) }}
+        </div>
         <div>
-          <p class="username">Cibab</p>
-          <p class="role">Sigmiarz</p>
+          <p class="username">{{ user.login }}</p>
+          <p class="role">Użytkownik</p>
         </div>
       </div>
     </div>
 
-    <!-- Statystyki -->
+    <!-- Statystyki (można zostawić statyczne lub dostosować do danych z API) -->
     <div class="stats">
       <div class="stat">
-        <strong>45</strong>
+        <strong>0</strong>
         Wystawione
       </div>
       <div class="stat">
-        <strong>128</strong>
+        <strong>0</strong>
         Sprzedane
       </div>
       <div class="stat">
-        <strong>4.8</strong>
+        <strong>N/A</strong>
         Ocena
       </div>
     </div>
@@ -40,41 +48,35 @@
       <div class="info-row">
         <div>
           <div class="info-label">Imię</div>
-          <div class="info-value">Jan</div>
+          <div class="info-value">{{ user.name }}</div>
         </div>
       </div>
       <div class="info-row">
         <div>
           <div class="info-label">Nazwisko</div>
-          <div class="info-value">Kowalski</div>
+          <div class="info-value">{{ user.surname }}</div>
         </div>
       </div>
       <div class="info-row">
         <div>
-          <div class="info-label">Email</div>
-          <div class="info-value">jan.kowalski&#64;email.com</div>
+          <div class="info-label">Login</div>
+          <div class="info-value">{{ user.login }}</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div>
+          <div class="info-label">ID Użytkownika</div>
+          <div class="info-value">{{ user.id_user }}</div>
         </div>
       </div>
     </div>
 
-    <!-- Wystawione przedmioty -->
+    <!-- Przyciski akcji -->
     <div class="card">
-      <div class="items">
-        <div class="item">
-          <div class="item-name">iPhone 13 Pro</div>
-          <div class="item-price">3999 zł</div>
-        </div>
-        <div class="item">
-          <div class="item-name">Sony WH-1000XM4</div>
-          <div class="item-price">1299 zł</div>
-        </div>
-        <div class="item">
-          <div class="item-name">Apple Watch Series 7</div>
-          <div class="item-price">2199 zł</div>
-        </div>
+      <div class="action-buttons">
+        <button class="button primary-button">Dodaj produkt</button>
+        <button class="button logout-button" (click)="logout()">Wyloguj się</button>
       </div>
-      <a href="#" class="button">📦 Zobacz wszystkie wystawione przedmioty</a>
     </div>
-  </div>
-</body>
-</html>
+  </ng-container>
+</div>

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
     selector: 'app-header', // lub 'HeaderComponent' jeśli chcesz używać <HeaderComponent>
@@ -8,5 +10,10 @@ import { Component } from '@angular/core';
     styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-    // logika komponentu
+  constructor(private router: Router) { }
+
+  navigateTo(route: string): void {
+    this.router.navigate(['/' + route]);
+  }
+
 }
