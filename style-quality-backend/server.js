@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { getProducts , getProduct, getProductsByCategory, loginUser, getUserById, registerUser, checkUserExists, addProduct, addToCart} from './database.js';
+import { getProducts , getProduct, getProductsByCategory, loginUser, getUserById, registerUser, checkUserExists, addProduct, addToCart,getCartItemsByUserId, removeCartItem} from './database.js';
 
 const port = 5555;
 const app = express();
@@ -243,3 +243,83 @@ app.post('/api/cart', async (req, res) => {
     });
   }
 });
+
+// Endpoint do pobierania produktów z koszyka dla danego użytkownika
+app.get('/api/cart/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Brakuje ID użytkownika'
+      });
+    }
+
+    const result = await getCartItemsByUserId(userId);
+
+    if (!result.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Nie udało się pobrać produktów z koszyka',
+        error: result.error
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      items: result.items
+    });
+  } catch (error) {
+    console.error('Błąd podczas pobierania koszyka:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Wystąpił błąd podczas pobierania koszyka'
+    });
+  }
+});
+
+
+
+// Endpoint do usuwania produktu z koszyka
+app.delete('/api/cart/:id_cart_position', async (req, res) => {
+  try {
+    const id_cart_position = req.params.id_cart_position;
+
+    if (!id_cart_position) {
+      return res.status(400).json({
+        success: false,
+        message: 'Brakuje ID pozycji koszyka do usunięcia.'
+      });
+    }
+
+    const result = await removeCartItem(id_cart_position);
+
+    if (!result.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Nie udało się usunąć produktu z koszyka.',
+        error: result.error
+      });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pozycja w koszyku o podanym ID nie została znaleziona.'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Produkt usunięty z koszyka pomyślnie.'
+    });
+  } catch (error) {
+    console.error('Błąd podczas usuwania produktu z koszyka:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Wystąpił błąd podczas usuwania produktu z koszyka.'
+    });
+  }
+});
+

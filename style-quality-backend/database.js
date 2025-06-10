@@ -104,7 +104,9 @@ export {
     checkUserExists,
     getUserById,
     addProduct,
-    addToCart
+    addToCart,
+    getCartItemsByUserId,
+    removeCartItem
 }
 
 
@@ -139,6 +141,44 @@ async function addToCart(id_user, id_product, quantity) {
     } catch (error) {
         console.log("Błąd podczas dodawania do koszyka:"+ error);
         console.error("Błąd podczas dodawania do koszyka:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+// Pobieranie produktów z koszyka dla danego użytkownika
+async function getCartItemsByUserId(id_user) {
+    try {
+        // Dołączamy dane produktu do pozycji w koszyku
+        const [rows] = await pool.query(
+            `SELECT 
+                c.id_cart_position, 
+                quantity,
+                c.id_product, 
+                p.name AS product_name, 
+                p.price AS product_price,
+                p.description AS product_description,
+                p.identity AS product_identity
+            FROM carts c
+            JOIN products p ON c.id_product = p.id_product
+            WHERE c.id_user = ?`,
+            [id_user]
+        );
+        return { success: true, items: rows };
+    } catch (error) {
+        console.error("Błąd podczas pobierania koszyka:", error);
+        return { success: false, error: error.message };
+    }
+}
+
+async function removeCartItem(id_cart_position) {
+    try {
+        const [result] = await pool.query(
+            `DELETE FROM carts WHERE id_cart_position = ?`,
+            [id_cart_position]
+        );
+        return { success: true, affectedRows: result.affectedRows };
+    } catch (error) {
+        console.error("Błąd podczas usuwania z koszyka:", error);
         return { success: false, error: error.message };
     }
 }

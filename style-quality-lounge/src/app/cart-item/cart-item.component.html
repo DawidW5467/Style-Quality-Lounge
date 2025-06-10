@@ -1,14 +1,13 @@
 <div class="cart-item">
-    <img src="https://via.placeholder.com/60" alt="Smart Watch Pro"/>
-    <div class="item-details">
-      <strong>Smart Watch Pro</strong>
-      <p>Koperta: 42 mm</p>
-      <div class="quantity">
-        <button>-</button>
-        <span>1</span>
-        <button>+</button>
-      </div>
+<!--  <img src="https://via.placeholder.com/60/{{ cartItem.product_identity || 'CCCCCC' }}" alt="{{ cartItem.product_name }}"/>-->
+  <div class="item-details">
+    <strong>{{ cartItem.product_name }}</strong>
+    <p>{{ cartItem.product_description }}</p>
+    <div class="quantity">
+<!--      <button (click)="onQuantityChange(-1)">-</button>-->
+      <span>{{ cartItem.quantity }}</span>
+<!--      <button (click)="onQuantityChange(1)">+</button>-->
     </div>
-    <div class="price">100 zł</div>
-    <button class="delete">🗑️</button>
   </div>
+  <div class="price">{{ cartItem.product_price * cartItem.quantity | currency:'PLN':'symbol':'1.2-2' }}</div>
+  <button class="delete" (click)="onRemove()">🗑️</button> </div>

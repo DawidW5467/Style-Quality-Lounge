@@ -1,29 +1,30 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Koszyk</title>
-</head>
-<body>
-  <div class="cart-container">
-    <h2>Koszyk</h2>
+<div class="cart-container">
+  <h2>Koszyk</h2>
 
+  <div *ngIf="loading">Ładowanie koszyka...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
 
-    <app-cart-item></app-cart-item>
-    <app-cart-item></app-cart-item>
-    <app-cart-item></app-cart-item>
+  <div *ngIf="!loading && !error && cartItems.length === 0" class="empty-cart-message">
+    Twój koszyk jest pusty.
+  </div>
+
+  <ng-container *ngIf="!loading && !error && cartItems.length > 0">
+    <app-cart-item
+      *ngFor="let item of cartItems"
+      [cartItem]="item"
+
+      (remove)="removeItem(item)"
+    ></app-cart-item>
 
     <div class="summary">
-      <p>Subtotal <span>$329.97</span></p>
-      <p>Shipping <span>$10.00</span></p>
-      <p class="total">Total <span>$339.97</span></p>
+      <p>Subtotal <span>{{ calculateSummary().subtotal | currency:'PLN':'symbol':'1.2-2' }}</span></p>
+      <p>Shipping <span>{{ calculateSummary().shipping | currency:'PLN':'symbol':'1.2-2' }}</span></p>
+      <p class="total">Total <span>{{ calculateSummary().total | currency:'PLN':'symbol':'1.2-2' }}</span></p>
     </div>
 
     <div class="actions">
       <button routerLink="/" class="continue">← Kontynuuj Zakupy</button>
       <button routerLink="/order-details" class="checkout">Dostawa i Płatność →</button>
     </div>
-  </div>
-</body>
-</html>
+  </ng-container>
+</div>
