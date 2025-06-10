@@ -15,10 +15,10 @@ body{
 
 
 main{
-   height: 80vh;
-   display: flex;
-   justify-content:center ;
-   align-items: center;
-   flex-direction: column;
-   background-color: var(--backgroud-color);
+  /*height: 80vh;*/
+  display: flex;
+  justify-content:center ;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--backgroud-color);
 }

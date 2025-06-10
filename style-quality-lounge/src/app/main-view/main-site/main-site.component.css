@@ -3,8 +3,10 @@
 }
 
 .container{
+  display: block;
+    position: static;
     width: 90vw;
-    height: fit-content;
+    height: auto;
 }
 
   h2 {
