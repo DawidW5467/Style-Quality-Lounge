@@ -103,7 +103,8 @@ export {
     registerUser,
     checkUserExists,
     getUserById,
-    addProduct
+    addProduct,
+    addToCart
 }
 
 
@@ -114,7 +115,6 @@ async function addProduct(name, id_user, id_category, price, description, condit
             INSERT INTO products (name, id_user, id_category, price, description, identity, products.condition)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         `, [name, id_user, id_category, price, description, Math.floor(Math.random() * 9000) + 1000, condition]);
-        console.log("Result"+[result]);
         return {
             success: true,
             productId: result.insertId
@@ -125,5 +125,20 @@ async function addProduct(name, id_user, id_category, price, description, condit
             success: false,
             error: error.message
         };
+    }
+}
+
+// Dodawanie produktu do koszyka
+async function addToCart(id_user, id_product, quantity) {
+    try {
+        const [result] = await pool.query(
+            `INSERT INTO carts (id_user, id_product,quantity) VALUES (?, ?,?)`,
+            [id_user, id_product,quantity]
+        );
+        return { success: true, cartPositionId: result.insertId };
+    } catch (error) {
+        console.log("Błąd podczas dodawania do koszyka:"+ error);
+        console.error("Błąd podczas dodawania do koszyka:", error);
+        return { success: false, error: error.message };
     }
 }

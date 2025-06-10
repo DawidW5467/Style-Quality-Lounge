@@ -2,16 +2,16 @@
   <form class="product-form" (ngSubmit)="onSubmit()">
     <h2>Dodaj produkt</h2>
 
-    <div class="cover-photo">
-      <img src="cover.jpg" alt="Zdjęcie okładkowe">
-    </div>
+<!--    <div class="cover-photo">-->
+<!--      <img src="cover.jpg" alt="Zdjęcie okładkowe">-->
+<!--    </div>-->
 
-    <div class="additional-photos">
-      <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>
-      <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>
-      <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>
-      <div class="photo upload">+</div>
-    </div>
+<!--    <div class="additional-photos">-->
+<!--      <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>-->
+<!--      <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>-->
+<!--      <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>-->
+<!--      <div class="photo upload">+</div>-->
+<!--    </div>-->
 
     <div class="form-group">
       <label for="product-name">Nazwa produktu</label>
@@ -50,7 +50,7 @@
         <option value="powystawowy">Powystawowy</option>
       </select>
     </div>
-
+    <p id='plusInfo'>{{ this.info }}</p>
     <div class="buttons">
       <button type="button" class="cancel" (click)="onCancel()">Anuluj</button>
       <button type="submit" class="submit">Dodaj</button>

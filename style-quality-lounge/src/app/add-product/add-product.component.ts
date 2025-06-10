@@ -19,7 +19,7 @@ export class AddProductComponent {
     id_category: 1,
     condition: 'nowy'
   };
-
+  public info: string = '';
   constructor(private http: HttpClient, private router: Router) {}
 
   onSubmit() {
@@ -27,10 +27,13 @@ export class AddProductComponent {
       .subscribe({
         next: (response) => {
           console.log('Produkt dodany pomyślnie', response);
-          this.router.navigate(['/']); // Przekierowanie po sukcesie
+          this.info = 'Dodano produkt';
+          setTimeout(()=> {this.router.navigate(['/'])},3000)
+          // this.router.navigate(['/']) // Przekierowanie po sukcesie
         },
         error: (error) => {
           console.error('Błąd podczas dodawania produktu', error);
+          this.info = 'Błąd podczas dodawania produktu';
         }
       });
   }

@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { getProducts , getProduct, getProductsByCategory, loginUser, getUserById, registerUser, checkUserExists, addProduct} from './database.js';
+import { getProducts , getProduct, getProductsByCategory, loginUser, getUserById, registerUser, checkUserExists, addProduct, addToCart} from './database.js';
 
 const port = 5555;
 const app = express();
@@ -189,7 +189,7 @@ app.post('/api/products', async (req, res) => {
         error: result.error
       });
     }
-
+    console.log("Produkt dodano pomyślnie")
     res.status(201).json({
       success: true,
       message: 'Produkt dodany pomyślnie',
@@ -197,9 +197,49 @@ app.post('/api/products', async (req, res) => {
     });
   } catch (error) {
     console.error('Błąd podczas dodawania produktu:', error);
+    alert('Błąd podczas dodawania produktu:', error);
+    console.log('Błąd podczas dodawania produktu:', error);
     res.status(500).json({
       success: false,
       message: 'Wystąpił błąd podczas dodawania produktu'
+    });
+  }
+});
+
+
+// Endpoint do dodawania produktu do koszyka
+app.post('/api/cart', async (req, res) => {
+  try {
+    const { id_product, id_user, quantity } = req.body; // Zakładamy, że frontend wyśle id_product i id_user
+
+    // Walidacja
+    if (!id_product || !id_user || !quantity ) {
+      return res.status(400).json({
+        success: false,
+        message: 'Brakuje id_product lub id_user'
+      });
+    }
+
+    const result = await addToCart(id_user, id_product,quantity);
+
+    if (!result.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Nie udało się dodać produktu do koszyka',
+        error: result.error
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'Produkt dodany do koszyka pomyślnie',
+      cartPositionId: result.cartPositionId
+    });
+  } catch (error) {
+    console.error('Błąd podczas dodawania produktu do koszyka:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Wystąpił błąd podczas dodawania produktu do koszyka'
     });
   }
 });

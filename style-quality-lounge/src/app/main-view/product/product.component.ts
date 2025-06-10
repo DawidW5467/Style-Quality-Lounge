@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {ActivatedRoute, ROUTER_INITIALIZER, RouterLink} from '@angular/router';
 import { ProductService } from '../../services/product.service';
+import {Router, RouterModule} from '@angular/router';
+import { HttpClient } from '@angular/common/http'; // Import HttpClient
+import { AuthService, User } from '../../services/auth.service'; // Importuj AuthService i User
+
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule, RouterLink,RouterModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
@@ -16,11 +20,16 @@ export class ProductComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   quantity: number = 1;
+  currentUser: User | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private http: HttpClient,
+    private authService: AuthService,
+    private router: Router
   ) { }
+
 
   ngOnInit(): void {
     // Pobierz parametr ID z URL
@@ -46,6 +55,12 @@ export class ProductComponent implements OnInit {
         this.loading = false;
       }
     });
+
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      console.log('Aktualny użytkownik (ProductComponent):', this.currentUser);
+    });
+
   }
 
   changeQuantity(change: number): void {
@@ -56,8 +71,36 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(): void {
+
+    if (!this.currentUser) {
+      alert('Musisz być zalogowany, aby dodać produkt do koszyka.');
+      return;
+    }
+
+
     if (this.product) {
-      console.log('Dodano', this.quantity, 'sztuk produktu', this.product.id_product, 'do koszyka');
+      const id_user = this.currentUser.id_user;
+
+      const cartItem = {
+        id_product: this.product.id_product,
+        id_user: id_user,
+        quantity: this.quantity // Możesz również wysłać ilość, jeśli chcesz ją przechowywać w koszyku
+      };
+
+      this.http.post('http://localhost:5555/api/cart', cartItem)
+        .subscribe({
+          next: (response) => {
+            console.log('Produkt dodany do koszyka pomyślnie!', response);
+            // Tutaj możesz dodać logikę do wyświetlania komunikatu sukcesu użytkownikowi
+            alert('Produkt dodany do koszyka!');
+            this.router.navigate(['../cart/']);
+          },
+          error: (error) => {
+            console.error('Błąd podczas dodawania produktu do koszyka:', error);
+            // Tutaj możesz dodać logikę do wyświetlania komunikatu błędu użytkownikowi
+            alert('Wystąpił błąd podczas dodawania produktu do koszyka.');
+          }
+        });
     }
   }
 }
