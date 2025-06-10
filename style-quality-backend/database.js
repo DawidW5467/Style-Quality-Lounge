@@ -102,5 +102,28 @@ export {
     loginUser,
     registerUser,
     checkUserExists,
-    getUserById
+    getUserById,
+    addProduct
+}
+
+
+// Dodawanie nowego produktu
+async function addProduct(name, id_user, id_category, price, description, condition) {
+    try {
+        const [result] = await pool.query(`
+            INSERT INTO products (name, id_user, id_category, price, description, identity, products.condition)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `, [name, id_user, id_category, price, description, Math.floor(Math.random() * 9000) + 1000, condition]);
+        console.log("Result"+[result]);
+        return {
+            success: true,
+            productId: result.insertId
+        };
+    } catch (error) {
+        console.log("Dodawanie nieudane"+error);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
 }

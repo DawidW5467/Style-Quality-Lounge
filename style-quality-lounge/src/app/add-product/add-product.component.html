@@ -1,37 +1,59 @@
+<div class="container">
+  <form class="product-form" (ngSubmit)="onSubmit()">
+    <h2>Dodaj produkt</h2>
 
-  <div class="container">
-    <form class="product-form">
-      <h2>Dodaj produkt</h2>
+    <div class="cover-photo">
+      <img src="cover.jpg" alt="Zdjęcie okładkowe">
+    </div>
 
-      <div class="cover-photo">
-        <img src="cover.jpg" alt="Zdjęcie okładkowe">
-      </div>
+    <div class="additional-photos">
+      <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>
+      <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>
+      <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>
+      <div class="photo upload">+</div>
+    </div>
 
-      <div class="additional-photos">
-        <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>
-        <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>
-        <div class="photo"><img src="thumb.jpg" alt="Dodatkowe zdjęcie"></div>
-        <div class="photo upload">+</div>
-      </div>
+    <div class="form-group">
+      <label for="product-name">Nazwa produktu</label>
+      <input type="text" id="product-name" placeholder="Wprowadź nazwę produktu"
+             [(ngModel)]="product.name" name="name" required>
+    </div>
 
-      <div class="form-group">
-        <label for="product-name">Nazwa produktu</label>
-        <input type="text" id="product-name" placeholder="Wprowadź nazwę produktu">
-      </div>
+    <div class="form-group">
+      <label for="product-price">Cena (PLN)</label>
+      <input type="number" id="product-price" placeholder="0.00" step="0.01"
+             [(ngModel)]="product.price" name="price" required>
+    </div>
 
-      <div class="form-group">
-        <label for="product-price">Cena (PLN)</label>
-        <input type="number" id="product-price" placeholder="0.00" step="0.01">
-      </div>
+    <div class="form-group">
+      <label for="product-description">Opis produktu</label>
+      <textarea id="product-description" placeholder="Wprowadź opis produktu"
+                [(ngModel)]="product.description" name="description" required></textarea>
+    </div>
 
-      <div class="form-group">
-        <label for="product-description">Opis produktu</label>
-        <textarea id="product-description" placeholder="Wprowadź opis produktu"></textarea>
-      </div>
+    <div class="form-group">
+      <label for="product-category">Kategoria</label>
+      <select id="product-category" [(ngModel)]="product.id_category" name="id_category">
+        <option value="1">Electronics</option>
+        <option value="2">Clothing</option>
+        <option value="3">Books</option>
+        <option value="4">Home & Garden</option>
+        <option value="5">Sports</option>
+      </select>
+    </div>
 
-      <div class="buttons">
-        <button type="button" class="cancel">Anuluj</button>
-        <button type="submit" class="submit">Dodaj</button>
-      </div>
-    </form>
-  </div>
+    <div class="form-group">
+      <label for="product-condition">Stan</label>
+      <select id="product-condition" [(ngModel)]="product.condition" name="condition">
+        <option value="nowy">Nowy</option>
+        <option value="używany">Używany</option>
+        <option value="powystawowy">Powystawowy</option>
+      </select>
+    </div>
+
+    <div class="buttons">
+      <button type="button" class="cancel" (click)="onCancel()">Anuluj</button>
+      <button type="submit" class="submit">Dodaj</button>
+    </div>
+  </form>
+</div>

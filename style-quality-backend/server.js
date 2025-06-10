@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { getProducts , getProduct, getProductsByCategory, loginUser, getUserById, registerUser, checkUserExists} from './database.js';
+import { getProducts , getProduct, getProductsByCategory, loginUser, getUserById, registerUser, checkUserExists, addProduct} from './database.js';
 
 const port = 5555;
 const app = express();
@@ -158,6 +158,48 @@ app.post('/api/register', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Wystąpił błąd podczas rejestracji'
+    });
+  }
+});
+
+
+// Endpoint do dodawania produktu
+app.post('/api/products', async (req, res) => {
+  try {
+    const { name, price, description, id_category, condition } = req.body;
+
+    // Tutaj powinno być pobranie id_user z sesji/tokena, na potrzeby przykładu używamy 1
+    const id_user = 1;
+
+    // Walidacja podstawowa
+    if (!name || !price || !description || !id_category || !condition) {
+      return res.status(400).json({
+        success: false,
+        message: 'Wszystkie pola są wymagane'
+      });
+    }
+
+    // Dodanie produktu
+    const result = await addProduct(name, id_user, id_category, price, description, condition);
+
+    if (!result.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Nie udało się dodać produktu',
+        error: result.error
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'Produkt dodany pomyślnie',
+      productId: result.productId
+    });
+  } catch (error) {
+    console.error('Błąd podczas dodawania produktu:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Wystąpił błąd podczas dodawania produktu'
     });
   }
 });

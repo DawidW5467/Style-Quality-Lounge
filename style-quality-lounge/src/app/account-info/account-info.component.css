@@ -1,3 +1,9 @@
+*{
+  font-family: Inter;
+
+}
+
+
 /* account-info.component.css */
 :host {
   display: block;

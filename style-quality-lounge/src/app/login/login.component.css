@@ -1,3 +1,10 @@
+*{
+    font-family: Inter;
+
+}
+
+
+
 /* Kontener główny */
 .container {
   display: flex;
