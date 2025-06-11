@@ -12,14 +12,14 @@
     <app-cart-item
       *ngFor="let item of cartItems"
       [cartItem]="item"
-
+      (quantityChange)="updateQuantity(item, $event)"
       (remove)="removeItem(item)"
     ></app-cart-item>
 
     <div class="summary">
-      <p>Subtotal <span>{{ calculateSummary().subtotal | currency:'PLN':'symbol':'1.2-2' }}</span></p>
-      <p>Shipping <span>{{ calculateSummary().shipping | currency:'PLN':'symbol':'1.2-2' }}</span></p>
-      <p class="total">Total <span>{{ calculateSummary().total | currency:'PLN':'symbol':'1.2-2' }}</span></p>
+      <p>Subtotal <span>{{ calculateSummary().subtotal | currency:'PLN ':'symbol':'1.2-2' }}</span></p>
+      <p>Shipping <span>{{ calculateSummary().shipping | currency:'PLN ':'symbol':'1.2-2' }}</span></p>
+      <p class="total">Total <span>{{ calculateSummary().total | currency:'PLN ':'symbol':'1.2-2' }}</span></p>
     </div>
 
     <div class="actions">

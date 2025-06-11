@@ -1,128 +1,258 @@
 * {
-    box-sizing: border-box;
-  }
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f0fff4;
-    margin: 0;
-    padding: 2rem;
-  }
+body {
+  background-color: #f0fff4;
+  margin: 0;
+  padding: 2rem;
+}
 
+.container {
+  margin-top: 5%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+  max-width: 1200px;
+}
+
+.order-form {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.form-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  flex: 1 1 60%;
+  min-width: 600px;
+}
+
+.form-section h3 {
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-container {
+  position: relative;
+  min-height: 70px; /* Zapewnia miejsce na komunikat o błędzie */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 0.25rem;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #ff4d4f;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus {
+  border-color: #007b5f;
+  outline: none;
+}
+
+.delivery-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.delivery-option {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.delivery-option:hover {
+  background-color: #f9f9f9;
+}
+
+.delivery-option.selected {
+  background-color: #eaffea;
+  border-color: #007b5f;
+}
+
+.checkbox-sms {
+  margin-top: 1rem;
+  background: #eaffea;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.checkbox-sms label {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.checkbox-sms input {
+  margin-right: 10px;
+}
+
+.order-summary {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  min-width: 280px;
+  max-width: 320px;
+  align-self: flex-start;
+}
+
+.order-summary h3 {
+  margin-bottom: 1rem;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-details strong {
+  margin-bottom: 0.25rem;
+}
+
+.item-details small {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.price {
+  font-weight: 600;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+}
+
+.summary-total {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #007b5f;
+  margin-top: 1rem;
+  border-top: 1px solid #ddd;
+  padding-top: 0.75rem;
+}
+
+.pay-button {
+  background-color: #007b5f;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pay-button:hover {
+  background-color: #005f49;
+}
+
+.pay-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #e53935;
+  font-size: 0.8rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.error-message {
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 1rem;
+  color: #666;
+}
+
+.empty-cart a {
+  color: #007b5f;
+  text-decoration: none;
+}
+
+.empty-cart a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
   .container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: space-between;
-  }
-
-  .form-section {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    flex: 1 1 60%;
-    min-width: 600px;
-  }
-
-  .form-section h3 {
-    margin-bottom: 1rem;
-  }
-
-  .form-group {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"] {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-  }
-
-  .delivery-options {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-
-  .delivery-option {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  .checkbox-sms {
-    margin-top: 1rem;
-    background: #eaffea;
-    padding: 1rem;
-    border-radius: 8px;
-  }
-
-  .order-summary {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 1.5rem;
-    min-width: 280px;
-    max-width: 320px;
-  }
-
-  .order-summary h3 {
-    margin-bottom: 1rem;
-  }
-
-  .item {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .item-details {
-    display: flex;
     flex-direction: column;
   }
 
-  .price {
-    font-weight: 600;
+  .form-section {
+    min-width: 100%;
   }
 
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    margin: 0.25rem 0;
-    font-size: 0.9rem;
-  }
-
-  .summary-total {
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #007b5f;
-    margin-top: 1rem;
-  }
-
-  .pay-button {
-    background-color: #007b5f;
-    color: white;
-    border: none;
+  .order-summary {
+    max-width: 100%;
     width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    margin-top: 1rem;
-    cursor: pointer;
   }
+}
 
-  .pay-button:hover {
-    background-color: #005f49;
+@media (max-width: 768px) {
+  .form-group,
+  .delivery-options {
+    grid-template-columns: 1fr;
   }
+}

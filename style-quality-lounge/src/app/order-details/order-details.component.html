@@ -1,97 +1,125 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8">
-  <title>Zamówienie</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-
 <div class="container">
+  <div *ngIf="loading" class="loading">Ładowanie danych...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
 
-  <div class="form-section">
-    <h3>Dane osobowe</h3>
-    <div class="form-group">
-      <input type="text" placeholder="Imię">
-      <input type="text" placeholder="Nazwisko">
-      <input type="tel" placeholder="Numer telefonu">
-      <input type="email" placeholder="Email">
-    </div>
+  <form *ngIf="!loading && !error" [formGroup]="orderForm" (ngSubmit)="submitOrder()" class="order-form">
+    <div class="form-section">
+      <h3>Dane osobowe</h3>
+      <div class="form-group">
+        <div class="input-container">
+          <input formControlName="imie" type="text" placeholder="Imię">
+          <div *ngIf="orderForm.get('imie')?.invalid && orderForm.get('imie')?.touched" class="error">
+            Imię jest wymagane
+          </div>
+        </div>
 
-    <h3>Adres dostawy</h3>
-    <div class="form-group">
-      <input type="text" placeholder="Ulica i numer">
-      <input type="text" placeholder="Kod pocztowy">
-      <input type="text" placeholder="Miasto">
-    </div>
+        <div class="input-container">
+          <input formControlName="nazwisko" type="text" placeholder="Nazwisko">
+          <div *ngIf="orderForm.get('nazwisko')?.invalid && orderForm.get('nazwisko')?.touched" class="error">
+            Nazwisko jest wymagane
+          </div>
+        </div>
 
-    <h3>Sposób dostawy</h3>
-    <div class="delivery-options">
-      <div class="delivery-option">
-        <span>🚚 Kurier</span>
-        <span>14,99 zł</span>
+        <div class="input-container">
+          <input formControlName="telefon" type="tel" placeholder="Numer telefonu">
+          <div *ngIf="orderForm.get('telefon')?.invalid && orderForm.get('telefon')?.touched" class="error">
+            Podaj prawidłowy numer telefonu (9 cyfr)
+          </div>
+        </div>
+
+        <div class="input-container">
+          <input formControlName="email" type="email" placeholder="Email">
+          <div *ngIf="orderForm.get('email')?.invalid && orderForm.get('email')?.touched" class="error">
+            Podaj prawidłowy adres email
+          </div>
+        </div>
       </div>
-      <div class="delivery-option">
-        <span>📦 Odbiór w punkcie</span>
-        <span>9,99 zł</span>
+
+      <h3>Adres dostawy</h3>
+      <div class="form-group">
+        <div class="input-container">
+          <input formControlName="ulica" type="text" placeholder="Ulica">
+          <div *ngIf="orderForm.get('ulica')?.invalid && orderForm.get('ulica')?.touched" class="error">
+            Ulica jest wymagana
+          </div>
+        </div>
+
+        <div class="input-container">
+          <input formControlName="numer_domu" type="text" placeholder="Numer domu/mieszkania">
+          <div *ngIf="orderForm.get('numer_domu')?.invalid && orderForm.get('numer_domu')?.touched" class="error">
+            Numer domu jest wymagany
+          </div>
+        </div>
+
+        <div class="input-container">
+          <input formControlName="kod_pocztowy" type="text" placeholder="Kod pocztowy (XX-XXX)">
+          <div *ngIf="orderForm.get('kod_pocztowy')?.invalid && orderForm.get('kod_pocztowy')?.touched" class="error">
+            Podaj prawidłowy kod pocztowy (XX-XXX)
+          </div>
+        </div>
+
+        <div class="input-container">
+          <input formControlName="miasto" type="text" placeholder="Miasto">
+          <div *ngIf="orderForm.get('miasto')?.invalid && orderForm.get('miasto')?.touched" class="error">
+            Miasto jest wymagane
+          </div>
+        </div>
       </div>
-      <div class="delivery-option">
-        <span>🚛 Kurier na następny dzień</span>
-        <span>19,99 zł</span>
+
+      <h3>Sposób dostawy</h3>
+      <div class="delivery-options">
+        <div *ngFor="let method of deliveryMethods"
+             class="delivery-option"
+             [class.selected]="selectedDeliveryMethod === method.id"
+             (click)="onDeliveryMethodChange(method.id)">
+          <span>{{ method.name }}</span>
+          <span>{{ method.price | currency:'PLN ':'symbol':'1.2-2' }}</span>
+        </div>
       </div>
-      <div class="delivery-option">
-        <span>📮 InPost</span>
-        <span>12,99 zł</span>
+
+      <div class="checkbox-sms">
+        <label>
+          <input formControlName="sms" type="checkbox" (change)="toggleSmsNotifications()">
+          Powiadomienia SMS o statusie przesyłki (+0.99 zł)
+        </label>
       </div>
     </div>
 
-    <div class="checkbox-sms">
-      <label>
-        <input type="checkbox"> Powiadomienia SMS o statusie przesyłki (+0.99 zł)
-      </label>
-    </div>
-  </div>
+    <div class="order-summary">
+      <h3>Podsumowanie zamówienia</h3>
 
-  <div class="order-summary">
-    <h3>Podsumowanie zamówienia</h3>
-
-    <div class="item">
-      <div class="item-details">
-        <strong>Sigma Buty</strong>
-        <small>Rozmiar: 42</small>
+      <div *ngIf="cartItems.length === 0" class="empty-cart">
+        Twój koszyk jest pusty. <a routerLink="/">Kontynuuj zakupy</a>
       </div>
-      <div class="price">299 zł</div>
-    </div>
 
-    <div class="item">
-      <div class="item-details">
-        <strong>T-Shirt</strong>
-        <small>Rozmiar: L</small>
-      </div>
-      <div class="price">79 zł</div>
-    </div>
+      <ng-container *ngIf="cartItems.length > 0">
+        <div *ngFor="let item of cartItems" class="item">
+          <div class="item-details">
+            <strong>{{ item.product_name }}</strong>
+            <small>Ilość: {{ item.quantity }}</small>
+          </div>
+          <div class="price">{{ item.product_price * item.quantity | currency:'PLN ':'symbol':'1.2-2' }}</div>
+        </div>
 
-    <div class="summary-row">
-      <span>Suma produktów</span>
-      <span>378 zł</span>
-    </div>
-    <div class="summary-row">
-      <span>Dostawa</span>
-      <span>14,99 zł</span>
-    </div>
-    <div class="summary-row">
-      <span>Powiadomienia SMS</span>
-      <span>0,99 zł</span>
-    </div>
-    <div class="summary-row summary-total">
-      <span>Razem</span>
-      <span>393,98 zł</span>
-    </div>
+        <div class="summary-row">
+          <span>Suma produktów</span>
+          <span>{{ calculateSubtotal() | currency:'PLN ':'symbol':'1.2-2' }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Dostawa</span>
+          <span>{{ getDeliveryPrice() | currency:'PLN ':'symbol':'1.2-2' }}</span>
+        </div>
+        <div class="summary-row" *ngIf="smsNotifications">
+          <span>Powiadomienia SMS</span>
+          <span>{{ getSmsPrice() | currency:'PLN ':'symbol':'1.2-2' }}</span>
+        </div>
+        <div class="summary-row summary-total">
+          <span>Razem</span>
+          <span>{{ calculateTotal() | currency:'PLN ':'symbol':'1.2-2' }}</span>
+        </div>
 
-    <button routerLink="/payment" class="pay-button">Przejdź do płatności</button>
-  </div>
-
+        <button type="submit" class="pay-button" [disabled]="orderForm.invalid">Przejdź do płatności</button>
+      </ng-container>
+    </div>
+  </form>
 </div>
-
-</body>
-</html>

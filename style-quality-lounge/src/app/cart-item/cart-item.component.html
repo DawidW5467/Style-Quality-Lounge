@@ -5,9 +5,9 @@
     <p>{{ cartItem.product_description }}</p>
     <div class="quantity">
 <!--      <button (click)="onQuantityChange(-1)">-</button>-->
-      <span>{{ cartItem.quantity }}</span>
+      <span>Ilość:  {{ cartItem.quantity }}</span>
 <!--      <button (click)="onQuantityChange(1)">+</button>-->
     </div>
   </div>
-  <div class="price">{{ cartItem.product_price * cartItem.quantity | currency:'PLN':'symbol':'1.2-2' }}</div>
+  <div class="price">{{ cartItem.product_price * cartItem.quantity | currency:'PLN ':'symbol':'1.2-2' }}</div>
   <button class="delete" (click)="onRemove()">🗑️</button> </div>
