@@ -403,3 +403,29 @@ app.post('/api/orders', async (req, res) => {
     });
   }
 });
+
+//
+//
+// // Endpoint do pobierania liczby produktów wystawionych przez użytkownika
+// app.get('/products/user/:userId/count', async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const count = await getUserProductsCount(userId);
+//     res.json({ count });
+//   } catch (error) {
+//     console.error('Błąd podczas pobierania liczby produktów:', error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+//
+// // Endpoint do pobierania liczby sprzedanych produktów przez użytkownika
+// app.get('/orders/seller/:userId/count', async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const count = await getUserSoldProductsCount(userId);
+//     res.json({ count });
+//   } catch (error) {
+//     console.error('Błąd podczas pobierania liczby sprzedanych produktów:', error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });

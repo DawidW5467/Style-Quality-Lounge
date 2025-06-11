@@ -1,4 +1,3 @@
-<!-- account-info.component.html -->
 <div class="container">
   <!-- Komunikat ładowania -->
   <div class="card" *ngIf="isLoading">
@@ -19,27 +18,26 @@
       </div>
     </div>
 
-    <!-- Statystyki (można zostawić statyczne lub dostosować do danych z API) -->
-    <div class="stats">
-      <div class="stat">
-        <strong>0</strong>
-        Wystawione
-      </div>
-      <div class="stat">
-        <strong>0</strong>
-        Sprzedane
-      </div>
+<!--    &lt;!&ndash; Statystyki &ndash;&gt;-->
+<!--    <div class="stats">-->
+<!--      <div class="stat">-->
+<!--        <strong>{{ stats.listedProducts }}</strong>-->
+<!--        Wystawione-->
+<!--      </div>-->
+<!--      <div class="stat">-->
+<!--        <strong>{{ stats.soldProducts }}</strong>-->
+<!--        Sprzedane-->
+<!--      </div>-->
+<!--      <div class="stat">-->
+<!--        <strong>N/A</strong>-->
+<!--        Ocena-->
+<!--      </div>-->
+<!--    </div>-->
 
-
-      <!-- Komunikat błędu -->
-      <div class="card error-card" *ngIf="errorMessage">
-        <p class="error-message">{{ errorMessage }}</p>
-        <button class="button" (click)="loadUserProfile()">Spróbuj ponownie</button>
-      </div>
-      <div class="stat">
-        <strong>N/A</strong>
-        Ocena
-      </div>
+    <!-- Komunikat błędu -->
+    <div class="card error-card" *ngIf="errorMessage">
+      <p class="error-message">{{ errorMessage }}</p>
+      <button class="button" (click)="loadUserProfile()">Spróbuj ponownie</button>
     </div>
 
     <!-- Informacje osobiste -->
@@ -74,7 +72,7 @@
     <!-- Przyciski akcji -->
     <div class="card">
       <div class="action-buttons">
-        <button class="button primary-button"  [routerLink]="['/add-product']" >Dodaj produkt</button>
+        <button class="button primary-button" [routerLink]="['/add-product']">Dodaj produkt</button>
         <button class="button logout-button" (click)="logout()">Wyloguj się</button>
       </div>
     </div>
