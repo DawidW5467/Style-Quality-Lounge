@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { getProducts , getProduct, getProductsByCategory, loginUser, getUserById, registerUser, checkUserExists, addProduct, addToCart,getCartItemsByUserId, removeCartItem} from './database.js';
+import { getProducts, getProduct, getProductsByCategory, loginUser, getUserById, registerUser, checkUserExists, addProduct, addToCart, getCartItemsByUserId, removeCartItem, createOrder } from './database.js';
 
 const port = 5555;
 const app = express();
@@ -322,4 +322,84 @@ app.delete('/api/cart/:id_cart_position', async (req, res) => {
     });
   }
 });
+// Endpoint do składania zamówień
+app.post('/api/orders', async (req, res) => {
+  try {
+    console.log('Otrzymano żądanie POST na /api/orders');
+    const {
+      id_user,
+      ulica,
+      numer_domu,
+      kod_pocztowy,
+      miasto,
+      metoda_dostawy,
+      powiadomienia_sms,
+      suma,
+      items
+    } = req.body;
 
+    console.log('Dane zamówienia:', {
+      id_user, ulica, numer_domu, kod_pocztowy, miasto, metoda_dostawy,
+      powiadomienia_sms, suma,
+      items_count: items ? items.length : 0
+    });
+
+    // Walidacja podstawowa
+    if (!id_user || !ulica || !numer_domu || !kod_pocztowy || !miasto || !metoda_dostawy || !items || !items.length) {
+      console.log('Brakuje wymaganych danych:', {
+        id_user: !!id_user,
+        ulica: !!ulica,
+        numer_domu: !!numer_domu,
+        kod_pocztowy: !!kod_pocztowy,
+        miasto: !!miasto,
+        metoda_dostawy: !!metoda_dostawy,
+        items: !!items,
+        items_length: items ? items.length : 0
+      });
+
+      return res.status(400).json({
+        success: false,
+        message: 'Brakuje wymaganych danych zamówienia'
+      });
+    }
+
+    console.log('Dane zwalidowane, wywołuję funkcję createOrder');
+
+    // Wywołaj funkcję createOrder
+    const result = await createOrder(
+        id_user,
+        ulica,
+        numer_domu,
+        kod_pocztowy,
+        miasto,
+        metoda_dostawy,
+        powiadomienia_sms,
+        suma,
+        items
+    );
+
+    console.log('Wynik createOrder:', result);
+
+    if (!result.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Nie udało się złożyć zamówienia',
+        error: result.error
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: 'Zamówienie złożone pomyślnie',
+      order_id: result.orderId,
+      delivery_date: result.deliveryDate
+    });
+  } catch (error) {
+    console.error('Błąd podczas przetwarzania zamówienia:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Wystąpił błąd podczas składania zamówienia',
+      error: error.message
+    });
+  }
+});

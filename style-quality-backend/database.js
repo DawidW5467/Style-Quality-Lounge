@@ -94,22 +94,6 @@ async function getUserById(userId) {
     return rows.length > 0 ? rows[0] : null;
 }
 
-// Eksportowanie kwerend
-export {
-    getProducts,
-    getProduct,
-    getProductsByCategory,
-    loginUser,
-    registerUser,
-    checkUserExists,
-    getUserById,
-    addProduct,
-    addToCart,
-    getCartItemsByUserId,
-    removeCartItem
-}
-
-
 // Dodawanie nowego produktu
 async function addProduct(name, id_user, id_category, price, description, condition) {
     try {
@@ -181,4 +165,115 @@ async function removeCartItem(id_cart_position) {
         console.error("Błąd podczas usuwania z koszyka:", error);
         return { success: false, error: error.message };
     }
+}
+
+
+
+async function createOrder(id_user, ulica, numer_domu, kod_pocztowy, miasto, metoda_dostawy, powiadomienia_sms, suma, items) {
+    const connection = await pool.getConnection();
+
+    try {
+        await connection.beginTransaction();
+
+        console.log('Rozpoczynam tworzenie zamówienia dla użytkownika:', id_user);
+
+        // Oblicz datę dostawy w zależności od wybranej metody
+        const currentDate = new Date();
+        let deliveryDate = new Date(currentDate);
+
+        if (metoda_dostawy === 'next_day') {
+            // Dostawa na następny dzień
+            deliveryDate.setDate(currentDate.getDate() + 1);
+        } else {
+            // Standardowa dostawa (4 dni)
+            deliveryDate.setDate(currentDate.getDate() + 4);
+        }
+
+        // Formatuj daty do formatu MySQL
+        const orderDate = currentDate.toISOString().split('T')[0]; // YYYY-MM-DD
+        const formattedDeliveryDate = deliveryDate.toISOString().split('T')[0]; // YYYY-MM-DD
+
+        // Znajdź sprzedawcę pierwszego produktu w koszyku (lub użyj NULL jeśli nie ma produktów)
+        let seller = null;
+        if (items && items.length > 0) {
+            const [sellerResult] = await connection.execute(
+                'SELECT id_user FROM products WHERE id_product = ?',
+                [items[0].id_product]
+            );
+
+            if (sellerResult && sellerResult.length > 0) {
+                seller = sellerResult[0].id_user;
+            }
+        }
+
+        // Dodaj zamówienie do tabeli orders
+        const [orderResult] = await connection.execute(
+            'INSERT INTO orders (customer, seller, price, order_date, delivery_date, shipping_method, ulica, numer_domu, kod_pocztowy, miasto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [id_user, seller, suma, orderDate, formattedDeliveryDate, metoda_dostawy, ulica, numer_domu, kod_pocztowy, miasto]
+        );
+
+        const orderId = orderResult.insertId;
+        console.log('Utworzono zamówienie z ID:', orderId);
+
+        try {
+            // Dodaj elementy zamówienia do tabeli order_products zgodnie z jej strukturą
+            for (const item of items) {
+                await connection.execute(
+                    'INSERT INTO order_products (id_order, id_product) VALUES (?, ?)',
+                    [orderId, item.id_product]
+                );
+            }
+            console.log('Dodano elementy zamówienia');
+        } catch (itemError) {
+            console.error('Błąd podczas dodawania elementów zamówienia:', itemError);
+            throw itemError;
+        }
+
+        // Wyczyść koszyk użytkownika
+        await connection.execute('DELETE FROM carts WHERE id_user = ?', [id_user]);
+        console.log('Wyczyszczono koszyk użytkownika');
+
+        // Zatwierdź transakcję
+        await connection.commit();
+        console.log('Transakcja zakończona pomyślnie');
+
+        return {
+            success: true,
+            orderId: orderId,
+            deliveryDate: formattedDeliveryDate
+        };
+    } catch (error) {
+        // W przypadku błędu cofnij transakcję
+        try {
+            await connection.rollback();
+            console.log('Transakcja wycofana');
+        } catch (rollbackError) {
+            console.error('Błąd podczas wycofywania transakcji:', rollbackError);
+        }
+
+        console.error('Błąd podczas tworzenia zamówienia:', error);
+        return {
+            success: false,
+            error: error.message
+        };
+    } finally {
+        connection.release();
+        console.log('Połączenie zwolnione');
+    }
+}
+
+// Eksportowanie kwerend
+export {
+    getProducts,
+    getProduct,
+    getProductsByCategory,
+    loginUser,
+    registerUser,
+    checkUserExists,
+    getUserById,
+    addProduct,
+    addToCart,
+    getCartItemsByUserId,
+    removeCartItem,
+    createOrder
 }
