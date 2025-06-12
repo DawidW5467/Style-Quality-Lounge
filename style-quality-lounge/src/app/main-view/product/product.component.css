@@ -10,6 +10,7 @@
   gap: 2rem;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
   max-width: 1200px;
+  min-width: 1000px;
   margin-top: 20%;
 
 }
@@ -70,7 +71,7 @@
 }
 
 .price {
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: #a68234;
   font-weight: bold;
   margin: 0.5rem 0;
