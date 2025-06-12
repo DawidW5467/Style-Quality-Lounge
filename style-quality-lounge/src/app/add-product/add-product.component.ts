@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {FormsModule} from '@angular/forms';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-add-product',
@@ -20,10 +21,11 @@ export class AddProductComponent {
     condition: 'nowy'
   };
   public info: string = '';
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private auth: AuthService) {}
 
   onSubmit() {
-    this.http.post('http://localhost:5555/api/products', this.product)
+    const body = { id_user: this.auth.currentUserValue?.id_user ?? 0, name: this.product.name, price: this.product.price, description: this.product.description, id_category: this.product.id_category, condition: this.product.condition };
+    this.http.post('http://localhost:5555/api/products', body)
       .subscribe({
         next: (response) => {
           console.log('Produkt dodany pomyślnie', response);

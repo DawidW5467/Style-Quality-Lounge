@@ -17,7 +17,7 @@ import {EditProductComponent} from './edit-product/edit-product.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, LoginComponent, FooterComponent, RegisterComponent, CartComponent, CartItemComponent, AccountInfoComponent, OrderDetailsComponent, PaymentComponent, MainSiteComponent,ProductComponent,RouterModule,AddProductComponent,EditProductComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent,RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

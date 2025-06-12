@@ -1,7 +1,22 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { getProducts, getProduct, getProductsByCategory, loginUser, getUserById, registerUser, checkUserExists, addProduct, addToCart, getCartItemsByUserId, removeCartItem, createOrder } from './database.js';
+import {
+  getProducts,
+  getProduct,
+  getProductsByCategory,
+  loginUser,
+  getUserById,
+  registerUser,
+  checkUserExists,
+  addProduct,
+  addToCart,
+  getCartItemsByUserId,
+  removeCartItem,
+  createOrder,
+  getUserSoldProductsCount,
+  getUserProductsCount
+} from './database.js';
 
 const port = 5555;
 const app = express();
@@ -166,10 +181,7 @@ app.post('/api/register', async (req, res) => {
 // Endpoint do dodawania produktu
 app.post('/api/products', async (req, res) => {
   try {
-    const { name, price, description, id_category, condition } = req.body;
-
-    // Tutaj powinno być pobranie id_user z sesji/tokena, na potrzeby przykładu używamy 1
-    const id_user = 1;
+    const {id_user, name, price, description, id_category, condition } = req.body;
 
     // Walidacja podstawowa
     if (!name || !price || !description || !id_category || !condition) {
@@ -404,28 +416,28 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-//
-//
-// // Endpoint do pobierania liczby produktów wystawionych przez użytkownika
-// app.get('/products/user/:userId/count', async (req, res) => {
-//   try {
-//     const userId = req.params.userId;
-//     const count = await getUserProductsCount(userId);
-//     res.json({ count });
-//   } catch (error) {
-//     console.error('Błąd podczas pobierania liczby produktów:', error);
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-//
-// // Endpoint do pobierania liczby sprzedanych produktów przez użytkownika
-// app.get('/orders/seller/:userId/count', async (req, res) => {
-//   try {
-//     const userId = req.params.userId;
-//     const count = await getUserSoldProductsCount(userId);
-//     res.json({ count });
-//   } catch (error) {
-//     console.error('Błąd podczas pobierania liczby sprzedanych produktów:', error);
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+
+
+// Endpoint do pobierania liczby produktów wystawionych przez użytkownika
+app.get('/products/user/:userId/count', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const count = await getUserProductsCount(userId);
+    res.json({ count });
+  } catch (error) {
+    console.error('Błąd podczas pobierania liczby produktów:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Endpoint do pobierania liczby sprzedanych produktów przez użytkownika
+app.get('/orders/seller/:userId/count', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const count = await getUserSoldProductsCount(userId);
+    res.json({ count });
+  } catch (error) {
+    console.error('Błąd podczas pobierania liczby sprzedanych produktów:', error);
+    res.status(500).json({ error: error.message });
+  }
+});

@@ -262,6 +262,26 @@ async function createOrder(id_user, ulica, numer_domu, kod_pocztowy, miasto, met
     }
 }
 
+
+// Pobieranie liczby produktów użytkownika
+async function getUserProductsCount(id_user) {
+    const [rows] = await pool.query(
+        'SELECT COUNT(*) as count FROM products WHERE id_user = ?',
+        [id_user]
+    );
+    return rows[0].count;
+}
+
+// Pobieranie liczby sprzedanych produktów użytkownika
+async function getUserSoldProductsCount(id_user) {
+    const [rows] = await pool.query(
+        'SELECT COUNT(*) as count FROM orders WHERE seller = ?',
+        [id_user]
+    );
+
+    return rows[0].count;
+}
+
 // Eksportowanie kwerend
 export {
     getProducts,
@@ -275,23 +295,7 @@ export {
     addToCart,
     getCartItemsByUserId,
     removeCartItem,
-    createOrder
+    createOrder,
+    getUserProductsCount,
+    getUserSoldProductsCount
 }
-//
-// // Pobieranie liczby produktów użytkownika
-// async function getUserProductsCount(id_user) {
-//     const [rows] = await pool.query(
-//         'SELECT COUNT(*) as count FROM products WHERE id_user = ?',
-//         [id_user]
-//     );
-//     return rows[0].count;
-// }
-//
-// // Pobieranie liczby sprzedanych produktów użytkownika
-// async function getUserSoldProductsCount(id_user) {
-//     const [rows] = await pool.query(
-//         'SELECT COUNT(*) as count FROM orders WHERE seller = ?',
-//         [id_user]
-//     );
-//     return rows[0].count;
-// }
