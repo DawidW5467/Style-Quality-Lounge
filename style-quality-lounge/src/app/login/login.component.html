@@ -2,7 +2,7 @@
   <div class="login-container">
     <h2>Logowanie</h2>
 
-    <!-- Alert Sukcesu -->
+
     <div class="success-message" *ngIf="successMessage">
       <div class="alert alert-success">
         {{ successMessage }}
@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <!-- Alert Błędu -->
+
     <div class="error-container" *ngIf="errorMessage">
       <div class="alert alert-danger">
         {{ errorMessage }}
@@ -62,7 +62,7 @@
       </div>
     </form>
 
-    <!-- Przycisk do strony głównej po udanym logowaniu -->
+
     <div class="home-button-container" *ngIf="redirectCountdown > 0">
       <button routerLink="/" class="home-now-button">
         Przejdź do strony głównej

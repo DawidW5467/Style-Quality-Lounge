@@ -2,7 +2,7 @@
   <div class="register-container">
     <h2>Rejestracja</h2>
 
-    <!-- Alert Sukcesu -->
+
     <div class="success-message" *ngIf="successMessage">
       <div class="alert alert-success">
         {{ successMessage }}
@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <!-- Alert Błędu -->
+
     <div class="error-container" *ngIf="errorMessage">
       <div class="alert alert-danger">
         {{ errorMessage }}
@@ -107,7 +107,7 @@
       </div>
     </form>
 
-    <!-- Przycisk do logowania po udanej rejestracji -->
+
     <div class="login-button-container" *ngIf="successMessage">
       <button routerLink="/login" class="login-now-button">
         Zaloguj się teraz

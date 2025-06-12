@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { RouterLink } from '@angular/router';
-import { CurrencyService } from '../../services/currency.service'; // import serwisu waluty
+import { CurrencyService } from '../../services/currency.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -23,7 +23,7 @@ export class MainSiteComponent implements OnInit {
   currentCurrency: string = 'PLN';
   private currencySub?: Subscription;
 
-  // UWAGA: currencyService publiczne, żeby można było go użyć w template
+
   constructor(
     private productService: ProductService,
     public currencyService: CurrencyService
@@ -32,8 +32,7 @@ export class MainSiteComponent implements OnInit {
   ngOnInit(): void {
     this.currencySub = this.currencyService.currency$.subscribe(curr => {
       this.currentCurrency = curr;
-      // Jeśli chcesz, możesz tu zaimplementować dodatkową logikę przy zmianie waluty,
-      // np. odświeżenie listy, przeliczenie cen itd.
+
     });
 
     this.productService.getProducts().subscribe(data => {

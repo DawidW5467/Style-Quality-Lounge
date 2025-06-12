@@ -84,7 +84,7 @@ export class RegisterComponent {
   }
 
   startRedirectCountdown(): void {
-    this.redirectCountdown = 5; // 5 sekund do przekierowania
+    this.redirectCountdown = 5;
 
     this.redirectTimer = setInterval(() => {
       this.redirectCountdown--;
@@ -102,7 +102,7 @@ export class RegisterComponent {
     }
   }
 
-  // Pomocnicze gettery dla łatwiejszego dostępu do pól formularza
+
   get nameControl() { return this.registerForm.get('name'); }
   get surnameControl() { return this.registerForm.get('surname'); }
   get loginControl() { return this.registerForm.get('login'); }

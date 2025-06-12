@@ -45,7 +45,6 @@ export class LoginComponent implements OnDestroy {
       next: (response) => {
         this.isLoading = false;
         if (response.success && response.user) {
-          // Sprawdzamy, czy user istnieje, zanim spróbujemy uzyskać dostęp do jego właściwości
           const userName = response.user.name || response.user.login || 'Użytkowniku';
           this.successMessage = `Witaj, ${userName}! Za chwilę zostaniesz przekierowany na stronę główną.`;
           this.startRedirectCountdown();
@@ -68,14 +67,14 @@ export class LoginComponent implements OnDestroy {
   }
 
   startRedirectCountdown(): void {
-    this.redirectCountdown = 3; // 3 sekundy do przekierowania
+    this.redirectCountdown = 3; // 3 sek.
 
     this.redirectTimer = setInterval(() => {
       this.redirectCountdown--;
 
       if (this.redirectCountdown <= 0) {
         clearInterval(this.redirectTimer);
-        this.router.navigate(['/']); // Przekierowanie na stronę główną
+        this.router.navigate(['/']);
       }
     }, 1000);
   }
@@ -86,7 +85,7 @@ export class LoginComponent implements OnDestroy {
     }
   }
 
-  // Pomocnicze gettery dla łatwiejszego dostępu do pól formularza
+
   get loginControl() { return this.loginForm.get('login'); }
   get passwordControl() { return this.loginForm.get('password'); }
 }

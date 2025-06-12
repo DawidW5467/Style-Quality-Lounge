@@ -8,7 +8,7 @@ export class CurrencyService {
   private currentCurrency = new BehaviorSubject<string>(localStorage.getItem(STORAGE_KEY) || 'PLN');
   currency$ = this.currentCurrency.asObservable();
 
-  // Proste kursy wymiany względem PLN
+
   private exchangeRates: { [key: string]: number } = {
     PLN: 1,
     EUR: 4.7,
@@ -25,14 +25,14 @@ export class CurrencyService {
     return this.currentCurrency.getValue();
   }
 
-  // Przelicz cenę z PLN na aktualną walutę
+
   convertPrice(pricePLN: number): number {
     const curr = this.getCurrency();
     const rate = this.exchangeRates[curr] || 1;
     return pricePLN / rate;
   }
 
-  // Możesz też dodać metodę do formatowania np. z symbolem waluty
+
   formatPrice(pricePLN: number): string {
     const curr = this.getCurrency();
     const converted = this.convertPrice(pricePLN);

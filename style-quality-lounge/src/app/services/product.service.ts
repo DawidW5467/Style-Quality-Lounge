@@ -8,21 +8,21 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:5555'; // URL do naszego serwera
+  private apiUrl = 'http://localhost:5555';
 
   constructor(private http: HttpClient) { }
 
-  // Ta metoda pobiera WSZYSTKIE produkty
+
   getProducts(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/products`);
   }
 
-  // Ta metoda pobiera konkrenty produkt o konkrentym id
+
   getProduct(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/products/${id}`);
   }
 
-  // Ta metoda pobiera produkty z konkretnej kategorii
+
   getProductsByCategory(category: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/products/category/${category}`);
   }

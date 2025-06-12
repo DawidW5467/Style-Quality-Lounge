@@ -358,7 +358,7 @@ app.post('/api/orders', async (req, res) => {
       items_count: items ? items.length : 0
     });
 
-    // Walidacja podstawowa
+
     if (!id_user || !ulica || !numer_domu || !kod_pocztowy || !miasto || !metoda_dostawy || !items || !items.length) {
       console.log('Brakuje wymaganych danych:', {
         id_user: !!id_user,
@@ -379,7 +379,7 @@ app.post('/api/orders', async (req, res) => {
 
     console.log('Dane zwalidowane, wywołuję funkcję createOrder');
 
-    // Wywołaj funkcję createOrder
+
     const result = await createOrder(
         id_user,
         ulica,

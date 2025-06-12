@@ -74,10 +74,10 @@ export class CartComponent implements OnInit {
   updateQuantity(item: CartItem, change: number): void {
     const newQuantity = item.quantity + change;
     if (newQuantity >= 1) {
-      // Aktualizuj lokalnie
+
       item.quantity = newQuantity;
 
-      // Wyślij aktualizację do backendu
+
       this.http.put(`http://localhost:5555/api/cart/${item.id_cart_position}`, { quantity: newQuantity })
         .subscribe({
           next: () => {
@@ -93,19 +93,19 @@ export class CartComponent implements OnInit {
   }
 
 
-  // Metoda do usuwania produktu z koszyka
+
   removeItem(itemToRemove: CartItem): void {
-    // Potwierdzenie usunięcia (opcjonalne, ale zalecane)
+
     if (!confirm(`Czy na pewno chcesz usunąć "${itemToRemove.product_name}" z koszyka?`)) {
       return;
     }
 
     this.http.delete(`http://localhost:5555/api/cart/${itemToRemove.id_cart_position}`)
       .subscribe({
-        next: (response: any) => { // response może być sukcesem lub błędem
+        next: (response: any) => {
           if (response.success) {
             console.log('Produkt usunięty z koszyka pomyślnie!', response);
-            // Usuń element z lokalnej tablicy, aby odświeżyć widok
+
             this.cartItems = this.cartItems.filter(item => item.id_cart_position !== itemToRemove.id_cart_position);
             this.calculateSummary();
             alert('Produkt został usunięty z koszyka.');

@@ -18,7 +18,7 @@ export class PaymentComponent {
   }
 
   goToHomePage(): void {
-    // Przekierowanie na stronę główną
+
     this.router.navigate(['/']);
   }
 }

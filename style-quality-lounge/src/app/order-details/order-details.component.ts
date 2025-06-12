@@ -67,22 +67,22 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Sprawdź, czy użytkownik jest zalogowany
+
     this.authService.currentUser$.subscribe(user => {
       if (user) {
         this.currentUserId = user.id_user;
-        // Wypełnij niektóre pola formularza danymi użytkownika
+
         this.orderForm.patchValue({
           imie: user.name || '',
           nazwisko: user.surname || '',
           email: user.login || ''
         });
-        // Pobierz koszyk użytkownika
+
         this.getCartItems(user.id_user);
       } else {
         this.loading = false;
         this.error = 'Musisz być zalogowany, aby złożyć zamówienie.';
-        // Możesz przekierować do strony logowania
+
         this.router.navigate(['/login']);
       }
     });
@@ -139,7 +139,7 @@ export class OrderDetailsComponent implements OnInit {
 
   submitOrder(): void {
     if (this.orderForm.invalid) {
-      // Zaznacz wszystkie pola jako dotknięte, aby pokazać błędy walidacji
+
       Object.keys(this.orderForm.controls).forEach(key => {
         const control = this.orderForm.get(key);
         control?.markAsTouched();
@@ -152,10 +152,10 @@ export class OrderDetailsComponent implements OnInit {
       return;
     }
 
-    // Pobierz wartości z formularza
+
     const formValues = this.orderForm.value;
 
-    // Przygotuj dane zamówienia
+
     const orderData = {
       id_user: this.currentUserId,
       ulica: formValues.ulica,
@@ -172,13 +172,13 @@ export class OrderDetailsComponent implements OnInit {
       }))
     };
 
-    // Wyślij zamówienie do API
+
     this.http.post<{ success: boolean, message: string, order_id?: number }>('http://localhost:5555/api/orders', orderData)
       .subscribe({
         next: (response) => {
           if (response.success) {
             alert('Zamówienie zostało złożone pomyślnie!');
-            // Przekieruj do strony potwierdzenia zamówienia lub płatności
+
             this.router.navigate(['/payment'], {
               queryParams: { order_id: response.order_id }
             });

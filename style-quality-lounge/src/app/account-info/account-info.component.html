@@ -1,11 +1,11 @@
 <div class="container">
-  <!-- Komunikat ładowania -->
+
   <div class="card" *ngIf="isLoading">
     <p class="loading-message">Ładowanie danych użytkownika...</p>
   </div>
-  <!-- Dane użytkownika (widoczne tylko gdy użytkownik jest zalogowany) -->
+
   <ng-container *ngIf="user && !isLoading">
-    <!-- Profil -->
+
     <div class="card">
       <div class="profile-header">
         <div class="avatar-placeholder" *ngIf="user">
@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <!-- Statystyki -->
+
     <div class="stats">
       <div class="stat">
         <strong>{{ stats.listedProducts }}</strong>
@@ -34,13 +34,13 @@
       </div>
     </div>
 
-    <!-- Komunikat błędu -->
+
     <div class="card error-card" *ngIf="errorMessage">
       <p class="error-message">{{ errorMessage }}</p>
       <button class="button" (click)="loadUserProfile()">Spróbuj ponownie</button>
     </div>
 
-    <!-- Informacje osobiste -->
+
     <div class="card">
       <p class="section-title">Informacje osobiste</p>
       <div class="info-row">
@@ -69,7 +69,7 @@
       </div>
     </div>
 
-    <!-- Przyciski akcji -->
+
     <div class="card">
       <div class="action-buttons">
         <button class="button primary-button" [routerLink]="['/add-product']">Dodaj produkt</button>

@@ -23,9 +23,9 @@ export class ProductComponent implements OnInit, OnDestroy {
   quantity: number = 1;
   currentUser: User | null = null;
 
-  pricePLN: number = 0; // oryginalna cena w PLN z backendu
-  unitPrice: number = 0; // przeliczona cena jednostkowa
-  totalPrice: number = 0; // przeliczona cena całkowita
+  pricePLN: number = 0;
+  unitPrice: number = 0;
+  totalPrice: number = 0;
 
   private currencySub?: Subscription;
 
@@ -48,7 +48,7 @@ export class ProductComponent implements OnInit, OnDestroy {
             this.product = data;
             this.loading = false;
 
-            // Zapisujemy cenę w PLN i ustawiamy unitPrice i totalPrice
+
             this.pricePLN = this.product.price;
             this.updatePrices();
 
@@ -71,7 +71,6 @@ export class ProductComponent implements OnInit, OnDestroy {
       console.log('Aktualny użytkownik (ProductComponent):', this.currentUser);
     });
 
-    // Subskrybujemy zmianę waluty, żeby przeliczyć ceny automatycznie
     this.currencySub = this.currencyService.currency$.subscribe(() => {
       this.updatePrices();
     });
@@ -91,7 +90,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   updatePrices(): void {
     console.log('Cena PLN:', this.pricePLN);
-    console.log('Aktualna waluta:', this.currencyService.getCurrency()); // jeśli masz taką metodę
+    console.log('Aktualna waluta:', this.currencyService.getCurrency());
 
     this.unitPrice = this.currencyService.convertPrice(this.pricePLN);
     this.totalPrice = this.unitPrice * this.quantity;

@@ -1,4 +1,3 @@
-<!-- Widok produktu -->
 <div class="product-container" *ngIf="!loading && !error && product">
   <div class="image-gallery">
     <div class="product-image placeholder">{{ product.name }}</div>
@@ -55,12 +54,12 @@
   </div>
 </div>
 
-<!-- Ekran ładowania -->
+
 <div *ngIf="loading" class="loading">
   <p>Ładowanie szczegółów produktu...</p>
 </div>
 
-<!-- Komunikat o błędzie -->
+
 <div *ngIf="error" class="error">
   <p>{{ error }}</p>
   <button routerLink="/">Wróć do strony głównej</button>

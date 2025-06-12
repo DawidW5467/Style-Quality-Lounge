@@ -43,7 +43,7 @@ async function getProductsByCategory(category){
         `, [category])
     return rows
 }
-// console.log(await getProductsByCategory('Electronics'))
+
 
 // Sprawdzanie logowania
 async function loginUser(login, password) {
@@ -132,7 +132,7 @@ async function addToCart(id_user, id_product, quantity) {
 // Pobieranie produktów z koszyka dla danego użytkownika
 async function getCartItemsByUserId(id_user) {
     try {
-        // Dołączamy dane produktu do pozycji w koszyku
+
         const [rows] = await pool.query(
             `SELECT 
                 c.id_cart_position, 
@@ -177,23 +177,22 @@ async function createOrder(id_user, ulica, numer_domu, kod_pocztowy, miasto, met
 
         console.log('Rozpoczynam tworzenie zamówienia dla użytkownika:', id_user);
 
-        // Oblicz datę dostawy w zależności od wybranej metody
+
         const currentDate = new Date();
         let deliveryDate = new Date(currentDate);
 
         if (metoda_dostawy === 'next_day') {
-            // Dostawa na następny dzień
+
             deliveryDate.setDate(currentDate.getDate() + 1);
         } else {
-            // Standardowa dostawa (4 dni)
+
             deliveryDate.setDate(currentDate.getDate() + 4);
         }
 
-        // Formatuj daty do formatu MySQL
+
         const orderDate = currentDate.toISOString().split('T')[0]; // YYYY-MM-DD
         const formattedDeliveryDate = deliveryDate.toISOString().split('T')[0]; // YYYY-MM-DD
 
-        // Znajdź sprzedawcę pierwszego produktu w koszyku (lub użyj NULL jeśli nie ma produktów)
         let seller = null;
         if (items && items.length > 0) {
             const [sellerResult] = await connection.execute(
@@ -206,7 +205,7 @@ async function createOrder(id_user, ulica, numer_domu, kod_pocztowy, miasto, met
             }
         }
 
-        // Dodaj zamówienie do tabeli orders
+
         const [orderResult] = await connection.execute(
             'INSERT INTO orders (customer, seller, price, order_date, delivery_date, shipping_method, ulica, numer_domu, kod_pocztowy, miasto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [id_user, seller, suma, orderDate, formattedDeliveryDate, metoda_dostawy, ulica, numer_domu, kod_pocztowy, miasto]
@@ -216,7 +215,7 @@ async function createOrder(id_user, ulica, numer_domu, kod_pocztowy, miasto, met
         console.log('Utworzono zamówienie z ID:', orderId);
 
         try {
-            // Dodaj elementy zamówienia do tabeli order_products zgodnie z jej strukturą
+
             for (const item of items) {
                 await connection.execute(
                     'INSERT INTO order_products (id_order, id_product) VALUES (?, ?)',
@@ -229,11 +228,11 @@ async function createOrder(id_user, ulica, numer_domu, kod_pocztowy, miasto, met
             throw itemError;
         }
 
-        // Wyczyść koszyk użytkownika
+
         await connection.execute('DELETE FROM carts WHERE id_user = ?', [id_user]);
         console.log('Wyczyszczono koszyk użytkownika');
 
-        // Zatwierdź transakcję
+
         await connection.commit();
         console.log('Transakcja zakończona pomyślnie');
 
@@ -243,7 +242,7 @@ async function createOrder(id_user, ulica, numer_domu, kod_pocztowy, miasto, met
             deliveryDate: formattedDeliveryDate
         };
     } catch (error) {
-        // W przypadku błędu cofnij transakcję
+
         try {
             await connection.rollback();
             console.log('Transakcja wycofana');
@@ -310,7 +309,7 @@ async function getUserPurchasedProductsCount(id_user) {
 }
 
 
-// Eksportowanie kwerend
+
 export {
     getProducts,
     getProduct,

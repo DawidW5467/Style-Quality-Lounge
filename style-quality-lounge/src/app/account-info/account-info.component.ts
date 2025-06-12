@@ -63,7 +63,7 @@ export class AccountInfoComponent implements OnInit {
   }
 
   loadUserStats(userId: number): void {
-    // Pobierz liczbę wystawionych produktów
+
     this.http.get<any>(`http://localhost:5555/products/user/${userId}/count`)
       .subscribe({
         next: (response) => {
@@ -74,7 +74,7 @@ export class AccountInfoComponent implements OnInit {
         }
       });
 
-    // Pobierz liczbę sprzedanych produktów
+
     this.http.get<any>(`http://localhost:5555/orders/seller/${userId}/count`)
       .subscribe({
         next: (response) => {
@@ -85,7 +85,7 @@ export class AccountInfoComponent implements OnInit {
         }
       });
 
-    // Kupione produkty
+
     this.http.get<any>(`http://localhost:5555/orders/customer/${userId}/count`)
       .subscribe({
         next: (response) => {

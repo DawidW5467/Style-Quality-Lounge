@@ -31,7 +31,7 @@ export class AddProductComponent {
           console.log('Produkt dodany pomyślnie', response);
           this.info = 'Dodano produkt';
           setTimeout(()=> {this.router.navigate(['/'])},3000)
-          // this.router.navigate(['/']) // Przekierowanie po sukcesie
+
         },
         error: (error) => {
           console.error('Błąd podczas dodawania produktu', error);
@@ -41,6 +41,6 @@ export class AddProductComponent {
   }
 
   onCancel() {
-    this.router.navigate(['/']); // Przekierowanie po anulowaniu
+    this.router.navigate(['/']);
   }
 }
