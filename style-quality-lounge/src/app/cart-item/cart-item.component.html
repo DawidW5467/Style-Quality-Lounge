@@ -1,13 +1,13 @@
 <div class="cart-item">
-<!--  <img src="https://via.placeholder.com/60/{{ cartItem.product_identity || 'CCCCCC' }}" alt="{{ cartItem.product_name }}"/>-->
   <div class="item-details">
     <strong>{{ cartItem.product_name }}</strong>
     <p>{{ cartItem.product_description }}</p>
     <div class="quantity">
-<!--      <button (click)="onQuantityChange(-1)">-</button>-->
-      <span>Ilość:  {{ cartItem.quantity }}</span>
-<!--      <button (click)="onQuantityChange(1)">+</button>-->
+      <button (click)="onQuantityChange(-1)">-</button>
+      <span>Ilość: {{ cartItem.quantity }}</span>
+      <button (click)="onQuantityChange(1)">+</button>
     </div>
   </div>
-  <div class="price">{{ cartItem.product_price * cartItem.quantity | currency:'PLN ':'symbol':'1.2-2' }}</div>
-  <button class="delete" (click)="onRemove()">🗑️</button> </div>
+  <div class="price">{{ currencyService.formatPrice(cartItem.product_price * cartItem.quantity) }}</div>
+  <button class="delete" (click)="onRemove()">🗑️</button>
+</div>

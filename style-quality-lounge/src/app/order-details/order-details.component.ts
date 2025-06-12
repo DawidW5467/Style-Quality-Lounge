@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { CartComponent } from '../cart/cart.component';
+import { CurrencyService } from '../services/currency.service';
 
 interface CartItem {
   id_cart_position: number;
@@ -40,7 +41,7 @@ export class OrderDetailsComponent implements OnInit {
   deliveryMethods = [
     { id: 'courier', name: '🚚 Kurier', price: 14.99 },
     { id: 'pickup', name: '📦 Odbiór w punkcie', price: 9.99 },
-    { id: 'next_day', name: '🚛 Kurier na następny dzień', price: 19.99 },
+    { id: 'next_day', name: '🚛 Następny dzień', price: 19.99 },
     { id: 'inpost', name: '📮 InPost', price: 12.99 }
   ];
 
@@ -48,7 +49,8 @@ export class OrderDetailsComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    public currencyService: CurrencyService
   ) {
     this.orderForm = this.fb.group({
       imie: ['', Validators.required],

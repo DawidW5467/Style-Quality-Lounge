@@ -282,6 +282,34 @@ async function getUserSoldProductsCount(id_user) {
     return rows[0].count;
 }
 
+// Aktualizacja ilości produktu w koszyku
+async function updateCartItemQuantity(id_cart_position, quantity) {
+    try {
+        const [result] = await pool.query(
+            'UPDATE carts SET quantity = ? WHERE id_cart_position = ?',
+            [quantity, id_cart_position]
+        );
+
+        if (result.affectedRows === 0) {
+            return { success: false, message: 'Pozycja w koszyku nie znaleziona' };
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error('Błąd updateCartItemQuantity:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+async function getUserPurchasedProductsCount(id_user) {
+    const [rows] = await pool.query(
+        'SELECT COUNT(*) as count FROM orders WHERE customer = ?',
+        [id_user]
+    );
+    return rows[0].count;
+}
+
+
 // Eksportowanie kwerend
 export {
     getProducts,
@@ -297,5 +325,7 @@ export {
     removeCartItem,
     createOrder,
     getUserProductsCount,
-    getUserSoldProductsCount
+    getUserSoldProductsCount,
+    updateCartItemQuantity,
+    getUserPurchasedProductsCount
 }

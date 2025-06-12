@@ -18,10 +18,13 @@ export class AccountInfoComponent implements OnInit {
   stats: {
     listedProducts: number;
     soldProducts: number;
+    purchasedProducts: number;
   } = {
     listedProducts: 0,
-    soldProducts: 0
+    soldProducts: 0,
+    purchasedProducts: 0
   };
+
 
   constructor(
     private authService: AuthService,
@@ -81,6 +84,18 @@ export class AccountInfoComponent implements OnInit {
           console.error('Błąd pobierania liczby sprzedanych produktów:', error);
         }
       });
+
+    // Kupione produkty
+    this.http.get<any>(`http://localhost:5555/orders/customer/${userId}/count`)
+      .subscribe({
+        next: (response) => {
+          this.stats.purchasedProducts = response.count || 0;
+        },
+        error: (error) => {
+          console.error('Błąd pobierania liczby kupionych produktów:', error);
+        }
+      });
+
   }
 
   logout(): void {

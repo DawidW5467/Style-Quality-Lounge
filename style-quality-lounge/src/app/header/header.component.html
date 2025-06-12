@@ -14,7 +14,15 @@
       <input type="text" placeholder="Wyszukaj produkty...">
       <span class="search-icon">🔍</span>
     </div>
+
     <div class="nav-icons">
+      <div class="currency-select">
+        <select #currencySelect [(ngModel)]="currentCurrency" (change)="onCurrencyChange(currencySelect.value)">
+          <option value="PLN">PLN</option>
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+        </select>
+      </div>
       <span class="icon" (click)="navigateTo('account')">👤</span>
       <span class="icon cart" (click)="navigateTo('cart')">
     🛒

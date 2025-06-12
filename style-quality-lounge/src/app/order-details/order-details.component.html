@@ -73,14 +73,17 @@
              [class.selected]="selectedDeliveryMethod === method.id"
              (click)="onDeliveryMethodChange(method.id)">
           <span>{{ method.name }}</span>
-          <span>{{ method.price | currency:'PLN ':'symbol':'1.2-2' }}</span>
+          <span>
+            {{ currencyService.convertPrice(method.price) | number:'1.2-2' }} {{ currencyService.getCurrency() }}
+          </span>
         </div>
       </div>
 
       <div class="checkbox-sms">
         <label>
           <input formControlName="sms" type="checkbox" (change)="toggleSmsNotifications()">
-          Powiadomienia SMS o statusie przesyłki (+0.99 zł)
+          Powiadomienia SMS o statusie przesyłki
+          (+{{ currencyService.convertPrice(0.99) | number:'1.2-2' }} {{ currencyService.getCurrency() }})
         </label>
       </div>
     </div>
@@ -98,24 +101,35 @@
             <strong>{{ item.product_name }}</strong>
             <small>Ilość: {{ item.quantity }}</small>
           </div>
-          <div class="price">{{ item.product_price * item.quantity | currency:'PLN ':'symbol':'1.2-2' }}</div>
+          <div class="price">
+            {{ currencyService.convertPrice(item.product_price * item.quantity) | number:'1.2-2' }} {{ currencyService.getCurrency() }}
+          </div>
+
         </div>
 
         <div class="summary-row">
           <span>Suma produktów</span>
-          <span>{{ calculateSubtotal() | currency:'PLN ':'symbol':'1.2-2' }}</span>
+          <span>
+            {{ currencyService.convertPrice(calculateSubtotal()) | number:'1.2-2' }} {{ currencyService.getCurrency() }}
+          </span>
         </div>
         <div class="summary-row">
           <span>Dostawa</span>
-          <span>{{ getDeliveryPrice() | currency:'PLN ':'symbol':'1.2-2' }}</span>
+          <span>
+            {{ currencyService.convertPrice(getDeliveryPrice()) | number:'1.2-2' }} {{ currencyService.getCurrency() }}
+          </span>
         </div>
         <div class="summary-row" *ngIf="smsNotifications">
           <span>Powiadomienia SMS</span>
-          <span>{{ getSmsPrice() | currency:'PLN ':'symbol':'1.2-2' }}</span>
+          <span>
+            {{ currencyService.convertPrice(getSmsPrice()) | number:'1.2-2' }} {{ currencyService.getCurrency() }}
+          </span>
         </div>
         <div class="summary-row summary-total">
           <span>Razem</span>
-          <span>{{ calculateTotal() | currency:'PLN ':'symbol':'1.2-2' }}</span>
+          <span>
+            {{ currencyService.convertPrice(calculateTotal()) | number:'1.2-2' }} {{ currencyService.getCurrency() }}
+          </span>
         </div>
 
         <button type="submit" class="pay-button" [disabled]="orderForm.invalid">Przejdź do płatności</button>

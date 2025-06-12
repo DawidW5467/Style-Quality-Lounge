@@ -1,9 +1,9 @@
-// src/app/main-view/main-site/main-site.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { RouterLink } from '@angular/router';
-
+import { CurrencyService } from '../../services/currency.service'; // import serwisu waluty
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-site',
@@ -13,34 +13,42 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./main-site.component.css']
 })
 export class MainSiteComponent implements OnInit {
-  // Ta tablica będzie przechowywać WSZYSTKIE produkty
   products: any[] = [];
-
-  // Te zmienne są do produktów z kategorii
   categoryProducts: any[] = [];
   categories: string[] = [];
   currentCategoryIndex: number = 0;
   categoryLoading: boolean = true;
   categoryError: string | null = null;
 
+  currentCurrency: string = 'PLN';
+  private currencySub?: Subscription;
 
-  constructor(private productService: ProductService) { }
+  // UWAGA: currencyService publiczne, żeby można było go użyć w template
+  constructor(
+    private productService: ProductService,
+    public currencyService: CurrencyService
+  ) {}
 
   ngOnInit(): void {
-    // Ta metoda pobiera WSZYSTKIE produkty z bazy danych
+    this.currencySub = this.currencyService.currency$.subscribe(curr => {
+      this.currentCurrency = curr;
+      // Jeśli chcesz, możesz tu zaimplementować dodatkową logikę przy zmianie waluty,
+      // np. odświeżenie listy, przeliczenie cen itd.
+    });
+
     this.productService.getProducts().subscribe(data => {
-      this.products = data; // Zapisujemy WSZYSTKIE produkty
+      this.products = data;
       console.log('Pobrane produkty:', data);
     });
 
-    // Pobierz listę kategorii
     this.categories = this.productService.getCategories();
-
-    // Pobierz produkty z pierwszej kategorii
     this.loadProductsByCategory(this.categories[this.currentCategoryIndex]);
   }
 
-  // Metoda do ładowania produktów z określonej kategorii
+  ngOnDestroy(): void {
+    this.currencySub?.unsubscribe();
+  }
+
   loadProductsByCategory(category: string): void {
     this.categoryLoading = true;
     this.categoryError = null;
@@ -59,16 +67,13 @@ export class MainSiteComponent implements OnInit {
     });
   }
 
-  // Przejście do poprzedniej kategorii
   previousCategory(): void {
     this.currentCategoryIndex = (this.currentCategoryIndex - 1 + this.categories.length) % this.categories.length;
     this.loadProductsByCategory(this.categories[this.currentCategoryIndex]);
   }
 
-  // Przejście do następnej kategorii
   nextCategory(): void {
     this.currentCategoryIndex = (this.currentCategoryIndex + 1) % this.categories.length;
     this.loadProductsByCategory(this.categories[this.currentCategoryIndex]);
   }
-
 }

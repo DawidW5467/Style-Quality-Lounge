@@ -17,9 +17,12 @@
 <!--      ★★★★☆ <span>({{ product.reviews_count || 0 }} opinii)</span>-->
 <!--    </div>-->
     <div class="price">
-      {{ totalPrice | number:'1.2-2' }} zł
-      <span class="unit-price" *ngIf="quantity > 1">({{ unitPrice | number:'1.2-2' }} zł/szt.)</span>
+      {{ formatConvertedPrice(totalPrice) }}
+      <span class="unit-price" *ngIf="quantity > 1">
+    ({{ formatConvertedPrice(unitPrice) }}/szt.)
+  </span>
     </div>
+
 
 
     <h3>Opis</h3>
@@ -40,7 +43,7 @@
       <div class="quantity-selector">
         <button type="button" (click)="changeQuantity(-1)">-</button>
         <input type="number" id="quantity" name="quantity" [(ngModel)]="quantity"
-               (ngModelChange)="updateTotalPrice()" min="1" max="99" required />
+               (ngModelChange)="updatePrices()" min="1" max="99" required />
         <button type="button" (click)="changeQuantity(1)">+</button>
       </div>
 

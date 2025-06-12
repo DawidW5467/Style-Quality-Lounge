@@ -1,19 +1,33 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { CurrencyService } from '../services/currency.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
-    selector: 'app-header', // lub 'HeaderComponent' jeśli chcesz używać <HeaderComponent>
-    standalone: true,  // wymagane gdy używasz imports
-    imports: [],
-    templateUrl: './header.component.html',
-    styleUrl: './header.component.css'
+  selector: 'app-header',
+  standalone: true,
+  imports: [
+    FormsModule
+  ],
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  constructor(private router: Router) { }
+  currentCurrency: string;
+
+  constructor(
+    private router: Router,
+    private currencyService: CurrencyService
+  ) {
+    this.currentCurrency = this.currencyService.getCurrency();
+  }
 
   navigateTo(route: string): void {
     this.router.navigate(['/' + route]);
   }
 
+  onCurrencyChange(currency: string): void {
+    this.currencyService.setCurrency(currency);
+    this.currentCurrency = currency;
+  }
 }

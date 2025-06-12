@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthService, User } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { CurrencyService } from '../services/currency.service';
 
 interface CartItem {
   id_cart_position: number;
@@ -30,7 +31,8 @@ export class CartComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    public currencyService: CurrencyService
   ) { }
 
   ngOnInit(): void {
@@ -72,11 +74,24 @@ export class CartComponent implements OnInit {
   updateQuantity(item: CartItem, change: number): void {
     const newQuantity = item.quantity + change;
     if (newQuantity >= 1) {
+      // Aktualizuj lokalnie
       item.quantity = newQuantity;
-      // TODO: Tutaj możesz dodać logikę wysyłania aktualizacji ilości do backendu
-      this.calculateSummary();
+
+      // Wyślij aktualizację do backendu
+      this.http.put(`http://localhost:5555/api/cart/${item.id_cart_position}`, { quantity: newQuantity })
+        .subscribe({
+          next: () => {
+            console.log('Ilość zaktualizowana');
+            this.calculateSummary();
+          },
+          error: (err) => {
+            console.error('Błąd aktualizacji ilości:', err);
+            alert('Nie udało się zaktualizować ilości produktu.');
+          }
+        });
     }
   }
+
 
   // Metoda do usuwania produktu z koszyka
   removeItem(itemToRemove: CartItem): void {
@@ -113,4 +128,9 @@ export class CartComponent implements OnInit {
     const total = subtotal + shipping;
     return { subtotal, shipping, total };
   }
+
+  formatPrice(pricePLN: number): string {
+    return this.currencyService.formatPrice(pricePLN);
+  }
+
 }

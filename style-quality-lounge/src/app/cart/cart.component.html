@@ -17,10 +17,11 @@
     ></app-cart-item>
 
     <div class="summary">
-      <p>Subtotal <span>{{ calculateSummary().subtotal | currency:'PLN ':'symbol':'1.2-2' }}</span></p>
-      <p>Shipping <span>{{ calculateSummary().shipping | currency:'PLN ':'symbol':'1.2-2' }}</span></p>
-      <p class="total">Total <span>{{ calculateSummary().total | currency:'PLN ':'symbol':'1.2-2' }}</span></p>
+      <p>Subtotal <span>{{ formatPrice(calculateSummary().subtotal) }}</span></p>
+      <p>Shipping <span>{{ formatPrice(calculateSummary().shipping) }}</span></p>
+      <p class="total">Total <span>{{ formatPrice(calculateSummary().total) }}</span></p>
     </div>
+
 
     <div class="actions">
       <button routerLink="/" class="continue">← Kontynuuj Zakupy</button>

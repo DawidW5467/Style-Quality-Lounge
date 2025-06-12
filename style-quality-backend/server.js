@@ -15,7 +15,9 @@ import {
   removeCartItem,
   createOrder,
   getUserSoldProductsCount,
-  getUserProductsCount
+  getUserProductsCount,
+  updateCartItemQuantity,
+  getUserPurchasedProductsCount
 } from './database.js';
 
 const port = 5555;
@@ -436,8 +438,59 @@ app.get('/orders/seller/:userId/count', async (req, res) => {
     const userId = req.params.userId;
     const count = await getUserSoldProductsCount(userId);
     res.json({ count });
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Błąd podczas pobierania liczby sprzedanych produktów:', error);
     res.status(500).json({ error: error.message });
   }
 });
+
+app.put('/api/cart/:id_cart_position', async (req, res) => {
+  try {
+    const id_cart_position = req.params.id_cart_position;
+    const { quantity } = req.body;
+
+    // Walidacja ilości
+    if (!quantity || isNaN(quantity) || quantity < 1) {
+      return res.status(400).json({
+        success: false,
+        message: 'Nieprawidłowa ilość'
+      });
+    }
+
+    const result = await updateCartItemQuantity(id_cart_position, quantity);
+
+    if (!result.success) {
+      return res.status(404).json({
+        success: false,
+        message: result.message || 'Pozycja w koszyku nie znaleziona'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Ilość produktu w koszyku zaktualizowana pomyślnie'
+    });
+  } catch (error) {
+    console.error('Błąd podczas aktualizacji ilości produktu w koszyku:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Wystąpił błąd podczas aktualizacji ilości',
+      error: error.message
+    });
+  }
+});
+
+// Endpoint do pobierania liczby kupionych produktów przez użytkownika
+app.get('/orders/customer/:userId/count', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const count = await getUserPurchasedProductsCount(userId);
+    res.json({ count });
+  }
+  catch (error) {
+    console.error('Błąd podczas pobierania liczby kupionych produktów:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
